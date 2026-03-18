@@ -1,0 +1,103 @@
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">{{ editId() ? 'Editar comunidad' : 'Nueva comunidad' }}</h1>
+    <p class="page-subtitle">Completa la información de tu comunidad energética</p>
+  </div>
+
+  @if (loadingData()) {
+    <app-loading-spinner text="Cargando datos..." />
+  } @else {
+
+  <app-stepper [steps]="steps" [current]="currentStep()" />
+
+  <app-glass-card>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <!-- Step 1: Generales -->
+      @if (currentStep() === 0) {
+        <h2 class="step-title">Datos Generales</h2>
+        <div class="form-grid">
+          <app-floating-input label="Nombre de la comunidad *" formControlName="nombreComunidad" />
+          <app-floating-select label="Provincia *" [options]="provincias" formControlName="provincia" />
+          <app-floating-select label="Municipio *" [options]="municipios()" formControlName="municipio" />
+          <app-floating-select label="Tipo de edificio *" [options]="tiposEdificio" formControlName="tipoEdificio" />
+          <app-floating-input label="Año de construcción" type="number" formControlName="anioConstruccion" />
+          <app-floating-input label="Número de viviendas *" type="number" formControlName="numViviendas" />
+          <app-floating-input label="Número de plantas" type="number" formControlName="numPlantas" />
+        </div>
+      }
+
+      <!-- Step 2: Energéticos -->
+      @if (currentStep() === 1) {
+        <h2 class="step-title">Datos Energéticos</h2>
+        <div class="form-grid">
+          <app-floating-input label="Consumo eléctrico mensual (kWh) *" type="number" formControlName="consumoElectrico" />
+          <app-floating-input label="Consumo térmico mensual (kWh)" type="number" formControlName="consumoTermico" />
+        </div>
+        <div class="fuentes-section">
+          <label class="fuentes-label">Fuentes de energía actuales *</label>
+          <div class="fuentes-grid">
+            @for (fuente of fuentesEnergiaOpts; track fuente) {
+              <label class="fuente-chip" [class.fuente-chip--active]="isFuenteSelected(fuente)" (click)="toggleFuente(fuente)">
+                {{ fuente }}
+              </label>
+            }
+          </div>
+        </div>
+        <div class="form-grid">
+          <app-floating-input label="Área de techo/patio (m²) *" type="number" formControlName="area_techo_m2" />
+          <app-floating-select label="Orientación" [options]="orientaciones" formControlName="orientacion" />
+          <app-floating-select label="Tipo de calefacción *" [options]="tiposCalefaccion" formControlName="tipoCalefaccion" />
+        </div>
+        <div class="radio-section">
+          <label class="radio-label">¿Sistema de baterías/almacenamiento?</label>
+          <div class="radio-group">
+            <label class="radio-item" [class.radio-item--active]="form.value.baterias === true">
+              <input type="radio" [value]="true" formControlName="baterias"> Sí
+            </label>
+            <label class="radio-item" [class.radio-item--active]="form.value.baterias === false">
+              <input type="radio" [value]="false" formControlName="baterias"> No
+            </label>
+          </div>
+        </div>
+      }
+
+      <!-- Step 3: Ambientales -->
+      @if (currentStep() === 2) {
+        <h2 class="step-title">Datos Ambientales</h2>
+        <div class="form-grid">
+          <app-floating-input label="Código postal *" formControlName="codigoPostal" maxlength="5" />
+          <app-floating-select label="Zona climática (CTE)" [options]="zonasClimaticas" formControlName="zonaClimatica" />
+        </div>
+      }
+
+      <!-- Step 4: Económicos -->
+      @if (currentStep() === 3) {
+        <h2 class="step-title">Datos Económicos</h2>
+        <div class="form-grid">
+          <app-floating-input label="Factura energética mensual (€) *" type="number" formControlName="facturaEnergetica" />
+          <app-floating-input label="Presupuesto de inversión (€)" type="number" formControlName="presupuestoInversion" />
+        </div>
+      }
+
+      <!-- Navigation -->
+      <div class="step-nav">
+        @if (currentStep() > 0) {
+          <app-eco-button variant="ghost" (clicked)="prev()">Anterior</app-eco-button>
+        } @else {
+          <div></div>
+        }
+
+        @if (currentStep() < steps.length - 1) {
+          <app-eco-button variant="primary" (clicked)="next()">Siguiente</app-eco-button>
+        } @else {
+          <app-eco-button variant="primary" type="submit" [loading]="loading()">
+            {{ editId() ? 'Guardar cambios' : 'Crear comunidad' }}
+          </app-eco-button>
+        }
+      </div>
+    </form>
+  </app-glass-card>
+
+  }
+</div>

@@ -1,0 +1,150 @@
+@if (loading()) {
+  <div class="pres-loading">
+    <app-loading-spinner text="Cargando presentación..." />
+  </div>
+} @else {
+  <div class="presentation">
+    <!-- Navigation -->
+    <div class="pres-nav no-print">
+      <app-eco-button variant="outline" (clicked)="goToDashboard()">Volver</app-eco-button>
+      <div class="pres-nav__controls">
+        <button class="pres-nav__btn" [disabled]="currentSlide() === 0" (click)="prev()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="pres-nav__counter">{{ currentSlide() + 1 }} / {{ totalSlides }}</span>
+        <button class="pres-nav__btn" [disabled]="currentSlide() === totalSlides - 1" (click)="next()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <app-eco-button variant="outline" (clicked)="printPresentation()">Exportar PDF</app-eco-button>
+    </div>
+
+    <!-- Slide 0: Portada -->
+    <div class="slide" [class.slide--active]="currentSlide() === 0">
+      <div class="slide-portada">
+        <div class="portada-brand">Dinamiza ECO 360</div>
+        <h1 class="portada-title">Propuesta energética</h1>
+        @if (comunidad(); as c) {
+          <p class="portada-subtitle">{{ c.comunidad || 'Comunidad' }} — {{ c.provincia }}</p>
+        }
+        <div class="portada-badge">Informe personalizado</div>
+      </div>
+    </div>
+
+    <!-- Slide 1: Diagnóstico -->
+    <div class="slide" [class.slide--active]="currentSlide() === 1">
+      <h2 class="slide-title">Diagnóstico actual</h2>
+      @if (comunidad(); as c) {
+        <div class="slide-grid">
+          <div class="slide-stat">
+            <span class="slide-stat__label">Tipo edificio</span>
+            <span class="slide-stat__value">{{ c.tipo_edificio || '—' }}</span>
+          </div>
+          <div class="slide-stat">
+            <span class="slide-stat__label">Viviendas</span>
+            <span class="slide-stat__value">{{ c.num_viviendas || '—' }}</span>
+          </div>
+          <div class="slide-stat">
+            <span class="slide-stat__label">Año construcción</span>
+            <span class="slide-stat__value">{{ c.anio_construccion || '—' }}</span>
+          </div>
+          <div class="slide-stat">
+            <span class="slide-stat__label">Consumo eléctrico</span>
+            <span class="slide-stat__value">{{ c.electricidad_kwh ? (c.electricidad_kwh | number:'1.0-0') + ' kWh' : '—' }}</span>
+          </div>
+          <div class="slide-stat">
+            <span class="slide-stat__label">Consumo térmico</span>
+            <span class="slide-stat__value">{{ c.termica_kwh ? (c.termica_kwh | number:'1.0-0') + ' kWh' : '—' }}</span>
+          </div>
+          <div class="slide-stat">
+            <span class="slide-stat__label">Gasto mensual</span>
+            <span class="slide-stat__value">{{ c.gasto_mensual_energia ? (c.gasto_mensual_energia | formatEur) + '/mes' : '—' }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Slide 2: Recomendaciones -->
+    <div class="slide" [class.slide--active]="currentSlide() === 2">
+      <h2 class="slide-title">Recomendaciones</h2>
+      @if (recs(); as r) {
+        <div class="slide-recs">
+          <div class="slide-rec">
+            <h3>Mix energético propuesto</h3>
+            <div class="mix-bars">
+              @if (r.mix_fotovoltaica_pct > 0) {
+                <div class="mix-bar"><span class="mix-bar__label">Fotovoltaica</span><div class="mix-bar__track"><div class="mix-bar__fill" [style.width.%]="r.mix_fotovoltaica_pct"></div></div><span class="mix-bar__pct">{{ r.mix_fotovoltaica_pct }}%</span></div>
+              }
+              @if (r.mix_aerotermia_pct > 0) {
+                <div class="mix-bar"><span class="mix-bar__label">Aerotermia</span><div class="mix-bar__track"><div class="mix-bar__fill" [style.width.%]="r.mix_aerotermia_pct"></div></div><span class="mix-bar__pct">{{ r.mix_aerotermia_pct }}%</span></div>
+              }
+              @if (r.mix_geotermia_pct > 0) {
+                <div class="mix-bar"><span class="mix-bar__label">Geotermia</span><div class="mix-bar__track"><div class="mix-bar__fill" [style.width.%]="r.mix_geotermia_pct"></div></div><span class="mix-bar__pct">{{ r.mix_geotermia_pct }}%</span></div>
+              }
+              @if (r.mix_biomasa_pct > 0) {
+                <div class="mix-bar"><span class="mix-bar__label">Biomasa</span><div class="mix-bar__track"><div class="mix-bar__fill" [style.width.%]="r.mix_biomasa_pct"></div></div><span class="mix-bar__pct">{{ r.mix_biomasa_pct }}%</span></div>
+              }
+            </div>
+          </div>
+          <div class="slide-actions-list">
+            @if (r.instalar_bateria) {
+              <div class="slide-action-item">Batería de almacenamiento — {{ r.pct_ahorro_bateria }}% ahorro</div>
+            }
+            @if (r.instalar_bomba_calor) {
+              <div class="slide-action-item">Bomba de calor — {{ r.pct_ahorro_bomba_calor }}% ahorro</div>
+            }
+          </div>
+        </div>
+      } @else {
+        <p class="slide-empty">Sin recomendaciones disponibles</p>
+      }
+    </div>
+
+    <!-- Slide 3: Impacto -->
+    <div class="slide" [class.slide--active]="currentSlide() === 3">
+      <h2 class="slide-title">Impacto estimado</h2>
+      @if (recs(); as r) {
+        <div class="impact-grid">
+          <div class="impact-card impact-card--primary">
+            <span class="impact-card__value">{{ r.ahorro_5anios_eur | formatEur }}</span>
+            <span class="impact-card__label">Ahorro en 5 años</span>
+          </div>
+          <div class="impact-card">
+            <span class="impact-card__value">{{ r.co2_5anios_kg | number:'1.0-0' }} kg</span>
+            <span class="impact-card__label">CO₂ evitado en 5 años</span>
+          </div>
+          <div class="impact-card">
+            <span class="impact-card__value">{{ r.roi_payback_anios ?? '—' }} años</span>
+            <span class="impact-card__label">Retorno de inversión</span>
+          </div>
+          @if (subvs(); as s) {
+            <div class="impact-card impact-card--accent">
+              <span class="impact-card__value">{{ s.probabilidad_total_subvencion_pct | formatPct }}</span>
+              <span class="impact-card__label">Probabilidad de subvención</span>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="slide-empty">Sin datos de impacto disponibles</p>
+      }
+    </div>
+
+    <!-- Slide 4: CTA -->
+    <div class="slide" [class.slide--active]="currentSlide() === 4">
+      <div class="slide-cta">
+        <h2 class="slide-cta__title">Siguiente paso</h2>
+        <p class="slide-cta__text">
+          Nuestro equipo de gestores tramitará las subvenciones y gestionará todo el proceso
+          para que su comunidad comience a ahorrar lo antes posible.
+        </p>
+        <div class="slide-cta__actions no-print">
+          <app-eco-button variant="primary" (clicked)="goToDashboard()">Ir al Dashboard</app-eco-button>
+        </div>
+        <div class="slide-cta__footer">
+          <span>Dinamiza ECO 360</span>
+          <span>Energía inteligente para comunidades</span>
+        </div>
+      </div>
+    </div>
+  </div>
+}

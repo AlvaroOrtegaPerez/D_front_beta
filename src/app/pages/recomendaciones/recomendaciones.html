@@ -1,0 +1,134 @@
+<div class="page">
+  <div class="page-header">
+    <div class="brand-badge">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 20A7 7 0 0 1 14 6h7v7a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7V6h7a7 7 0 0 1 7 7v7Z"/></svg>
+      Dinamiza<span class="brand-eco">ECO</span> 360
+    </div>
+    <h1 class="page-title">Recomendaciones Personalizadas</h1>
+    <p class="page-subtitle">Análisis inteligente de eficiencia energética para tu comunidad</p>
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner text="Generando recomendaciones con IA..." />
+  } @else {
+
+    @if (recs(); as r) {
+      <!-- Ahorros -->
+      <section class="section">
+        <h2 class="section-heading">Ahorro Estimado a 5 Años</h2>
+        <div class="metrics-grid">
+          <app-metric-card
+            icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+            [value]="r.ahorro_5anios_kwh ? (r.ahorro_5anios_kwh | number:'1.0-0') + ' kWh' : '—'"
+            label="Ahorro energético" />
+          <app-metric-card
+            icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
+            [value]="r.ahorro_5anios_eur | formatEur"
+            label="Ahorro económico" />
+          <app-metric-card
+            icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>'
+            [value]="(r.co2_5anios_kg | number:'1.0-0') + ' kg'"
+            label="CO₂ evitado" />
+        </div>
+      </section>
+
+      <!-- Actuaciones -->
+      <section class="section">
+        <h2 class="section-heading">Actuaciones Recomendadas</h2>
+        <div class="actions-grid">
+          @if (r.instalar_bateria) {
+            <app-glass-card>
+              <div class="action-card">
+                <div class="action-icon action-icon--battery">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2" ry="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg>
+                </div>
+                <h3>Instalación de Batería</h3>
+                <div class="action-saving">{{ r.pct_ahorro_bateria | formatPct }} ahorro adicional</div>
+              </div>
+            </app-glass-card>
+          }
+          @if (r.instalar_bomba_calor) {
+            <app-glass-card>
+              <div class="action-card">
+                <div class="action-icon action-icon--pump">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+                </div>
+                <h3>Bomba de Calor</h3>
+                <div class="action-saving">{{ r.pct_ahorro_bomba_calor | formatPct }} ahorro adicional</div>
+              </div>
+            </app-glass-card>
+          }
+        </div>
+      </section>
+
+      <!-- Mix Energético -->
+      @if (mixItems.length > 0) {
+        <section class="section">
+          <h2 class="section-heading">Mix Energético Recomendado</h2>
+          <app-glass-card>
+            <div class="mix-list">
+              @for (item of mixItems; track item.label) {
+                <div class="mix-row">
+                  <div class="mix-label">{{ item.label }}</div>
+                  <div class="mix-bar-wrap">
+                    <div class="mix-bar" [style.width.%]="item.pct" [style.background]="item.color"></div>
+                  </div>
+                  <div class="mix-pct">{{ item.pct }}%</div>
+                </div>
+              }
+            </div>
+          </app-glass-card>
+        </section>
+      }
+
+      <!-- Subvenciones -->
+      @if (subvs(); as s) {
+        <section class="section">
+          <h2 class="section-heading">Subvenciones y Ayudas</h2>
+          <div class="metrics-grid metrics-grid--2">
+            <app-metric-card
+              icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>'
+              [value]="s.probabilidad_total_subvencion_pct | formatPct"
+              label="Probabilidad de subvención" />
+            <app-metric-card
+              icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>'
+              [value]="s.reduccion_energetica_pct | formatPct"
+              label="Reducción energética" />
+          </div>
+          <div class="eligibility-grid">
+            @for (item of eligibilityItems; track item.label) {
+              <div class="elig-item" [class.elig-item--yes]="item.eligible" [class.elig-item--no]="!item.eligible">
+                <span class="elig-dot"></span>
+                {{ item.label }}
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Resumen -->
+      @if (resumenText()) {
+        <section class="section">
+          <h2 class="section-heading">Resumen de la Recomendación</h2>
+          <app-glass-card>
+            <p class="resumen-text">{{ resumenText() }}</p>
+          </app-glass-card>
+        </section>
+      }
+
+      <!-- CTA -->
+      <section class="section cta-section">
+        <app-glass-card>
+          <div class="cta-content">
+            <h3 class="cta-title">¿Quieres dar el siguiente paso?</h3>
+            <p class="cta-desc">Agenda una videollamada con nuestro equipo para analizar tus resultados y empezar tu transición energética.</p>
+            <div class="cta-actions">
+              <app-eco-button variant="primary" (clicked)="goDashboard()">Ir al Dashboard 360</app-eco-button>
+              <app-eco-button variant="outline" (clicked)="goBack()">Mis comunidades</app-eco-button>
+            </div>
+          </div>
+        </app-glass-card>
+      </section>
+    }
+  }
+</div>

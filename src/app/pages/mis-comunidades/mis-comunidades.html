@@ -1,0 +1,61 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mis Comunidades</h1>
+      <p class="page-subtitle">Gestiona las comunidades energéticas de tu entorno</p>
+    </div>
+    <div class="page-actions">
+      <app-eco-button variant="outline" (clicked)="irDashboard()">Dashboard 360</app-eco-button>
+      <app-eco-button variant="primary" (clicked)="nuevaComunidad()">+ Nueva comunidad</app-eco-button>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner text="Cargando comunidades..." />
+  } @else if (comunidades().length === 0) {
+    <app-empty-state
+      title="Sin comunidades"
+      description="Crea tu primera comunidad energética y descubre las recomendaciones personalizadas de ahorro."
+      actionText="Crear mi primera comunidad"
+      (action)="nuevaComunidad()"
+      icon='<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' />
+  } @else {
+    <div class="grid">
+      @for (c of comunidades(); track getId(c)) {
+        <app-glass-card [hover]="true">
+          <div class="card-body">
+            <div class="card-top">
+              <h3 class="card-name">{{ c.comunidad || 'Sin nombre' }}</h3>
+              <app-badge
+                [text]="c.archivada ? 'Archivada' : 'Activa'"
+                [variant]="c.archivada ? 'neutral' : 'success'" />
+            </div>
+            <div class="card-info">
+              <span class="card-info__item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {{ c.provincia || '—' }}{{ c.municipio ? ', ' + c.municipio : '' }}
+              </span>
+              <span class="card-info__item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                {{ c.tipo_edificio || '—' }}
+              </span>
+            </div>
+            <div class="card-actions">
+              <button class="card-btn card-btn--edit" (click)="editar(c)">Editar</button>
+              <button class="card-btn card-btn--archive" (click)="confirmarArchivar(c)">Archivar</button>
+            </div>
+          </div>
+        </app-glass-card>
+      }
+    </div>
+  }
+
+  <app-confirm-dialog
+    [open]="confirmOpen()"
+    title="Archivar comunidad"
+    message="¿Estás seguro de que quieres archivar esta comunidad? Podrás recuperarla más tarde."
+    confirmText="Archivar"
+    [destructive]="true"
+    (confirmed)="archivar()"
+    (cancelled)="confirmOpen.set(false)" />
+</div>

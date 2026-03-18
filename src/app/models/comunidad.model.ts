@@ -1,0 +1,132 @@
+export interface Comunidad {
+  id: number;
+  comunidades_id?: number;
+  comunidad?: string;
+  provincia?: string;
+  municipio?: string;
+  tipo_edificio?: string;
+  anio_construccion?: number;
+  num_viviendas?: number;
+  num_pisos?: number;
+  electricidad_kwh?: number;
+  termica_kwh?: number;
+  fuentes_energia?: string;
+  area_techo_m2?: number;
+  orientacion?: string;
+  tipo_calefaccion?: string;
+  bateria?: boolean;
+  codigo_postal?: number;
+  zona_climatica?: string;
+  gasto_mensual_energia?: number;
+  presupuesto?: number;
+  archivada?: boolean;
+}
+
+export interface FormDataComunidad {
+  nombreComunidad: string;
+  provincia: string;
+  municipio: string;
+  tipoEdificio: string;
+  anioConstruccion: string;
+  numViviendas: string;
+  numPlantas: string;
+  consumoElectrico: string;
+  consumoTermico: string;
+  fuentesEnergia: string[];
+  area_techo_m2: string;
+  orientacion: string;
+  tipoCalefaccion: string;
+  baterias: boolean;
+  codigoPostal: string;
+  zonaClimatica: string;
+  facturaEnergetica: string;
+  presupuestoInversion: string;
+}
+
+export const INITIAL_FORM_DATA: FormDataComunidad = {
+  nombreComunidad: '',
+  provincia: '',
+  municipio: '',
+  tipoEdificio: '',
+  anioConstruccion: '',
+  numViviendas: '',
+  numPlantas: '',
+  consumoElectrico: '',
+  consumoTermico: '',
+  fuentesEnergia: [],
+  area_techo_m2: '',
+  orientacion: '',
+  tipoCalefaccion: '',
+  baterias: false,
+  codigoPostal: '',
+  zonaClimatica: '',
+  facturaEnergetica: '',
+  presupuestoInversion: '',
+};
+
+export function safeNumberString(v: unknown): string {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'number') return String(v);
+  if (typeof v === 'string') return v;
+  return '';
+}
+
+export function splitFuentesEnergia(v: unknown): string[] {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.filter(Boolean).map(String);
+  if (typeof v === 'string')
+    return v.split(',').map((s) => s.trim()).filter(Boolean);
+  return [];
+}
+
+export function mapApiToForm(api: Record<string, unknown>): FormDataComunidad {
+  return {
+    nombreComunidad: (api['comunidad'] as string) ?? '',
+    provincia: (api['provincia'] as string) ?? '',
+    municipio: (api['municipio'] as string) ?? '',
+    tipoEdificio: (api['tipo_edificio'] as string) ?? '',
+    anioConstruccion: safeNumberString(api['anio_construccion']),
+    numViviendas: safeNumberString(api['num_viviendas']),
+    numPlantas: safeNumberString(api['num_pisos']),
+    consumoElectrico: safeNumberString(api['electricidad_kwh']),
+    consumoTermico: safeNumberString(api['termica_kwh']),
+    fuentesEnergia: splitFuentesEnergia(api['fuentes_energia']),
+    area_techo_m2: safeNumberString(api['area_techo_m2']),
+    orientacion: (api['orientacion'] as string) ?? '',
+    tipoCalefaccion: (api['tipo_calefaccion'] as string) ?? '',
+    baterias: Boolean(api['bateria']),
+    codigoPostal: safeNumberString(api['codigo_postal']),
+    zonaClimatica: (api['zona_climatica'] as string) ?? '',
+    facturaEnergetica: safeNumberString(api['gasto_mensual_energia']),
+    presupuestoInversion: safeNumberString(api['presupuesto']),
+  };
+}
+
+export function buildPayload(form: FormDataComunidad): Record<string, unknown> {
+  return {
+    comunidad: form.nombreComunidad,
+    provincia: form.provincia,
+    municipio: form.municipio,
+    tipo_edificio: form.tipoEdificio,
+    anio_construccion: form.anioConstruccion ? Number(form.anioConstruccion) : null,
+    num_viviendas: form.numViviendas ? Number(form.numViviendas) : null,
+    num_pisos: form.numPlantas ? Number(form.numPlantas) : null,
+    electricidad_kwh: form.consumoElectrico ? Number(form.consumoElectrico) : null,
+    termica_kwh: form.consumoTermico ? Number(form.consumoTermico) : null,
+    fuentes_energia: form.fuentesEnergia.join(', '),
+    area_techo_m2: form.area_techo_m2 ? Number(form.area_techo_m2) : null,
+    orientacion: form.orientacion,
+    tipo_calefaccion: form.tipoCalefaccion,
+    bateria: form.baterias,
+    codigo_postal: form.codigoPostal ? Number(form.codigoPostal) : null,
+    zona_climatica: form.zonaClimatica,
+    gasto_mensual_energia: form.facturaEnergetica ? Number(form.facturaEnergetica) : null,
+    presupuesto: form.presupuestoInversion ? Number(form.presupuestoInversion) : null,
+  };
+}
+
+export function normalizeId(item: { id?: number; comunidades_id?: number } | null | undefined): number | null {
+  const val = item?.comunidades_id ?? item?.id ?? null;
+  const n = Number(val);
+  return Number.isFinite(n) ? n : null;
+}

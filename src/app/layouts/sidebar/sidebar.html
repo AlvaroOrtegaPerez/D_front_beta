@@ -1,0 +1,53 @@
+<!-- Mobile backdrop -->
+@if (mobileOpen) {
+  <div class="sidebar-backdrop" (click)="closeMobile()"></div>
+}
+
+<aside class="sidebar" [class.sidebar--collapsed]="collapsed" [class.sidebar--mobile-open]="mobileOpen">
+  <div class="sidebar__header">
+    @if (!collapsed) {
+      <a routerLink="/" class="sidebar__brand" (click)="onNavClick()">
+        <div class="sidebar__logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 20A7 7 0 0 1 14 6h7v7a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7V6h7a7 7 0 0 1 7 7v7Z"/></svg>
+        </div>
+        <span class="sidebar__brand-text">Dinamiza<span class="sidebar__brand-eco">ECO</span></span>
+      </a>
+    }
+    <button class="sidebar__toggle sidebar__toggle--desktop" (click)="toggle()" title="Colapsar menú">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        @if (collapsed) {
+          <path d="M9 18l6-6-6-6"/>
+        } @else {
+          <path d="M15 18l-6-6 6-6"/>
+        }
+      </svg>
+    </button>
+    <button class="sidebar__toggle sidebar__toggle--mobile" (click)="closeMobile()" title="Cerrar menú">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="sidebar__nav">
+    <a routerLink="/mis-comunidades" routerLinkActive="sidebar__link--active" class="sidebar__link" (click)="onNavClick()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="sidebar__link-text">Mis Comunidades</span>
+    </a>
+    <a routerLink="/datos-comunidad" routerLinkActive="sidebar__link--active" class="sidebar__link" (click)="onNavClick()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span class="sidebar__link-text">Nueva Comunidad</span>
+    </a>
+    <a routerLink="/dashboard-gestoria" routerLinkActive="sidebar__link--active" class="sidebar__link" (click)="onNavClick()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span class="sidebar__link-text">Dashboard 360</span>
+    </a>
+  </nav>
+
+  <div class="sidebar__footer">
+    <a routerLink="/" class="sidebar__link sidebar__link--muted" (click)="onNavClick()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span class="sidebar__link-text">Volver al inicio</span>
+    </a>
+  </div>
+</aside>
