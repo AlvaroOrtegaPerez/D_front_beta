@@ -193,6 +193,33 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
     return s > 70 ? 'Excelente' : s > 40 ? 'Mejorable' : 'Bajo';
   });
 
+  certificadoEnergetico = computed(() => {
+    const r = this.recs();
+    if (!r || !r.certificado_energetico_actual) return null;
+    const consumoActual = r.consumo_primario_no_renovable_actual_kwh_m2 ?? 0;
+    const consumoPost = r.consumo_primario_no_renovable_post_kwh_m2 ?? 0;
+    const co2Actual = r.emisiones_co2_actual_kg_m2 ?? 0;
+    const co2Post = r.emisiones_co2_post_kg_m2 ?? 0;
+    return {
+      letraActual: r.certificado_energetico_actual,
+      letraPost: r.certificado_energetico_post ?? r.certificado_energetico_actual,
+      consumoActual,
+      consumoPost,
+      consumoReduccion: consumoActual > 0 ? ((consumoActual - consumoPost) / consumoActual) * 100 : 0,
+      co2Actual,
+      co2Post,
+      co2Reduccion: co2Actual > 0 ? ((co2Actual - co2Post) / co2Actual) * 100 : 0,
+    };
+  });
+
+  getCertLetraColor(letra: string): string {
+    const map: Record<string, string> = {
+      'A': '#00a651', 'B': '#4cb848', 'C': '#bdd62e', 'D': '#fff200',
+      'E': '#f8b334', 'F': '#ee7e2d', 'G': '#e52421',
+    };
+    return map[letra?.toUpperCase()] ?? '#94a3b8';
+  }
+
   packRecomendado = computed(() => {
     const r = this.recs();
     if (!r) return null;

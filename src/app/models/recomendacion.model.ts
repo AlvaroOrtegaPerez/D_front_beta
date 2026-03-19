@@ -23,6 +23,13 @@ export interface RecomendacionAPI {
   roi_payback_anios?: number;
   roi_5anios_pct?: number;
   fecha_creacion?: number;
+  // Certificado energético
+  certificado_energetico_actual?: string;
+  certificado_energetico_post?: string;
+  consumo_primario_no_renovable_actual_kwh_m2?: number;
+  consumo_primario_no_renovable_post_kwh_m2?: number;
+  emisiones_co2_actual_kg_m2?: number;
+  emisiones_co2_post_kg_m2?: number;
 }
 
 export interface SubvencionAPI {

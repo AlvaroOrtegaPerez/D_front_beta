@@ -179,6 +179,78 @@
             </div>
           </div>
 
+          <!-- Certificado Energético -->
+          @if (certificadoEnergetico(); as cert) {
+            <div class="cert-energetico">
+              <h3 class="tab-heading">Certificado Energético</h3>
+              <div class="cert-energetico__cards">
+                <!-- Letra actual vs post -->
+                <div class="cert-letra-card">
+                  <span class="cert-letra-label">Calificación actual</span>
+                  <span class="cert-letra" [style.background]="getCertLetraColor(cert.letraActual)">{{ cert.letraActual }}</span>
+                </div>
+                <div class="cert-letra-arrow">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </div>
+                <div class="cert-letra-card cert-letra-card--post">
+                  <span class="cert-letra-label">Calificación post-mejora</span>
+                  <span class="cert-letra" [style.background]="getCertLetraColor(cert.letraPost)">{{ cert.letraPost }}</span>
+                </div>
+              </div>
+
+              <!-- Barras comparativas -->
+              <div class="cert-bars">
+                <div class="cert-bar-group">
+                  <div class="cert-bar-header">
+                    <span class="cert-bar-title">Consumo primario no renovable</span>
+                    <span class="cert-bar-delta" [class.cert-bar-delta--positive]="cert.consumoReduccion > 0">
+                      {{ cert.consumoReduccion > 0 ? '−' : '' }}{{ cert.consumoReduccion | number:'1.0-1' }}%
+                    </span>
+                  </div>
+                  <div class="cert-bar-row">
+                    <span class="cert-bar-label">Actual</span>
+                    <div class="cert-bar-track">
+                      <div class="cert-bar-fill cert-bar-fill--actual" [style.width.%]="100"></div>
+                    </div>
+                    <span class="cert-bar-value">{{ cert.consumoActual | number:'1.1-1' }} kWh/m²</span>
+                  </div>
+                  <div class="cert-bar-row">
+                    <span class="cert-bar-label">Post</span>
+                    <div class="cert-bar-track">
+                      <div class="cert-bar-fill cert-bar-fill--post" [style.width.%]="cert.consumoActual > 0 ? (cert.consumoPost / cert.consumoActual * 100) : 0"></div>
+                    </div>
+                    <span class="cert-bar-value">{{ cert.consumoPost | number:'1.1-1' }} kWh/m²</span>
+                  </div>
+                </div>
+
+                <div class="cert-bar-group">
+                  <div class="cert-bar-header">
+                    <span class="cert-bar-title">Emisiones CO₂</span>
+                    <span class="cert-bar-delta" [class.cert-bar-delta--positive]="cert.co2Reduccion > 0">
+                      {{ cert.co2Reduccion > 0 ? '−' : '' }}{{ cert.co2Reduccion | number:'1.0-1' }}%
+                    </span>
+                  </div>
+                  <div class="cert-bar-row">
+                    <span class="cert-bar-label">Actual</span>
+                    <div class="cert-bar-track">
+                      <div class="cert-bar-fill cert-bar-fill--actual" [style.width.%]="100"></div>
+                    </div>
+                    <span class="cert-bar-value">{{ cert.co2Actual | number:'1.1-1' }} kg/m²</span>
+                  </div>
+                  <div class="cert-bar-row">
+                    <span class="cert-bar-label">Post</span>
+                    <div class="cert-bar-track">
+                      <div class="cert-bar-fill cert-bar-fill--post" [style.width.%]="cert.co2Actual > 0 ? (cert.co2Post / cert.co2Actual * 100) : 0"></div>
+                    </div>
+                    <span class="cert-bar-value">{{ cert.co2Post | number:'1.1-1' }} kg/m²</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
           @if (resumenText()) {
             <app-glass-card><p class="resumen-text">{{ resumenText() }}</p></app-glass-card>
           }
