@@ -90,7 +90,7 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
   docsExpedienteId = signal<number | null>(null);
   docsExpedientePrograma = signal<string>('');
   uploadFile: File | null = null;
-  uploadTipo = 'Otros';
+  uploadTipo = 'OTROS';
   uploadSubmitting = signal(false);
   dragOver = signal(false);
 
@@ -585,14 +585,12 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
     if (!expId || !this.uploadFile) return;
     this.uploadSubmitting.set(true);
     const fd = new FormData();
-    fd.append('expediente_id', String(expId));
-    fd.append('tipo_documento', this.uploadTipo);
     fd.append('archivo', this.uploadFile);
-    this.gestoriasService.uploadDocumento(fd).subscribe({
+    this.gestoriasService.uploadDocumento(expId, this.uploadTipo, fd).subscribe({
       next: () => {
         this.uploadSubmitting.set(false);
         this.uploadFile = null;
-        this.uploadTipo = 'Otros';
+        this.uploadTipo = 'OTROS';
         this.loadDocs(expId);
         this.toast.success('Documento subido');
       },

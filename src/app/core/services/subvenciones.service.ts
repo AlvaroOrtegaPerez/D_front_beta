@@ -7,7 +7,7 @@ export class SubvencionesService {
   private api = inject(ApiService);
 
   getSubvenciones(idComunidad: number): Observable<Record<string, unknown>> {
-    return this.api.get<Record<string, unknown>>('subvenciones', `/subvenciones/${idComunidad}`);
+    return this.api.get<Record<string, unknown>>('subvenciones', `/subvenciones?comunidadId=${idComunidad}`);
   }
 
   generarSubvenciones(comunidadesId: number): Observable<Record<string, unknown>> {
