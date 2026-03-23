@@ -21,9 +21,9 @@
           <app-floating-select label="Provincia *" [options]="provincias" formControlName="provincia" />
           <app-floating-select label="Municipio *" [options]="municipios()" formControlName="municipio" />
           <app-floating-select label="Tipo de edificio *" [options]="tiposEdificio" formControlName="tipoEdificio" />
-          <app-floating-input label="Año de construcción" type="number" formControlName="anioConstruccion" />
-          <app-floating-input label="Número de viviendas *" type="number" formControlName="numViviendas" />
-          <app-floating-input label="Número de plantas" type="number" formControlName="numPlantas" />
+          <app-floating-input label="Año de construcción" type="number" formControlName="anioConstruccion" min="0" placeholderText="Ej: 2020" />
+          <app-floating-input label="Número de viviendas *" type="number" formControlName="numViviendas" min="0" placeholderText="Ej: 24" />
+          <app-floating-input label="Número de plantas" type="number" formControlName="numPlantas" min="0" placeholderText="Ej: 5" />
         </div>
       }
 
@@ -31,8 +31,8 @@
       @if (currentStep() === 1) {
         <h2 class="step-title">Datos Energéticos</h2>
         <div class="form-grid">
-          <app-floating-input label="Consumo eléctrico mensual (kWh) *" type="number" formControlName="consumoElectrico" />
-          <app-floating-input label="Consumo térmico mensual (kWh)" type="number" formControlName="consumoTermico" />
+          <app-floating-input label="Consumo eléctrico mensual (kWh) *" type="number" formControlName="consumoElectrico" min="0" placeholderText="Ej: 1500" />
+          <app-floating-input label="Consumo térmico mensual (kWh)" type="number" formControlName="consumoTermico" min="0" placeholderText="Ej: 800" />
         </div>
         <div class="fuentes-section">
           <label class="fuentes-label">Fuentes de energía actuales *</label>
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="form-grid">
-          <app-floating-input label="Área de techo/patio (m²) *" type="number" formControlName="area_techo_m2" />
+          <app-floating-input label="Área de techo/patio (m²) *" type="number" formControlName="area_techo_m2" min="0" placeholderText="Ej: 200" />
           <app-floating-select label="Orientación" [options]="orientaciones" formControlName="orientacion" />
           <app-floating-select label="Tipo de calefacción *" [options]="tiposCalefaccion" formControlName="tipoCalefaccion" />
         </div>
@@ -66,7 +66,7 @@
       @if (currentStep() === 2) {
         <h2 class="step-title">Datos Ambientales</h2>
         <div class="form-grid">
-          <app-floating-input label="Código postal *" formControlName="codigoPostal" maxlength="5" />
+          <app-floating-input label="Código postal *" formControlName="codigoPostal" maxlength="5" placeholderText="Ej: 28001" />
           <app-floating-select label="Zona climática (CTE)" [options]="zonasClimaticas" formControlName="zonaClimatica" />
         </div>
       }
@@ -75,8 +75,8 @@
       @if (currentStep() === 3) {
         <h2 class="step-title">Datos Económicos</h2>
         <div class="form-grid">
-          <app-floating-input label="Factura energética mensual (€) *" type="number" formControlName="facturaEnergetica" />
-          <app-floating-input label="Presupuesto de inversión (€)" type="number" formControlName="presupuestoInversion" />
+          <app-floating-input label="Factura energética mensual (€) *" type="number" formControlName="facturaEnergetica" min="0" placeholderText="Ej: 300" />
+          <app-floating-input label="Presupuesto de inversión (€)" type="number" formControlName="presupuestoInversion" min="0" placeholderText="Ej: 15000" />
         </div>
       }
 
