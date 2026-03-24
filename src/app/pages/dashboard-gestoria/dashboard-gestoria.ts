@@ -585,8 +585,8 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
     if (!expId || !this.uploadFile) return;
     this.uploadSubmitting.set(true);
     const fd = new FormData();
-    fd.append('expediente_id', String(expId));
-    fd.append('tipo_documento', this.uploadTipo);
+    fd.append('expedienteId', String(expId));
+    fd.append('tipoDocumento', this.uploadTipo);
     fd.append('archivo', this.uploadFile);
     this.gestoriasService.uploadDocumento(fd).subscribe({
       next: () => {

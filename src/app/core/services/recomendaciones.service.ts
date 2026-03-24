@@ -11,7 +11,7 @@ export class RecomendacionesService {
   }
 
   generarRecomendaciones(comunidadesId: number): Observable<Record<string, unknown>> {
-    return this.api.post<Record<string, unknown>>('recommendations', '/generar', {
+    return this.api.post<Record<string, unknown>>('recommendations', '/recomendaciones/generar', {
       comunidades_id: comunidadesId,
     });
   }
