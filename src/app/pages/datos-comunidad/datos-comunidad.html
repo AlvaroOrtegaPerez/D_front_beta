@@ -73,7 +73,7 @@
       @if (currentStep() === 2) {
         <h2 class="step-title">Datos Ambientales</h2>
         <div class="form-grid">
-          <app-floating-input label="Código postal *" formControlName="codigoPostal" maxlength="5" placeholderText="Ej: 28001" />
+          <app-floating-autocomplete label="Código postal *" type="text" formControlName="codigoPostal" placeholderText="Ej: 28001" maxlength="5" [suggestions]="sugerenciasCP()" />
           <app-floating-select label="Zona climática de invierno (CTE)" [options]="zonasClimaticas" formControlName="zonaClimatica" />
           <app-floating-select label="Zona climática de verano (CTE)" [options]="zonasVerano" formControlName="zonaClimaticaVerano" />
         </div>

@@ -14,12 +14,14 @@ import { EcoButtonComponent } from '../../shared/components/eco-button/eco-butto
 import { GlassCardComponent } from '../../shared/components/glass-card/glass-card';
 import { FloatingInputComponent } from '../../shared/components/floating-input/floating-input';
 import { FloatingSelectComponent } from '../../shared/components/floating-select/floating-select';
+import { FloatingAutocompleteComponent } from '../../shared/components/floating-autocomplete/floating-autocomplete';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner';
+import { CodigoPostalService } from '../../core/services/codigo-postal.service';
 
 @Component({
   selector: 'app-datos-comunidad',
   standalone: true,
-  imports: [ReactiveFormsModule, StepperComponent, EcoButtonComponent, GlassCardComponent, FloatingInputComponent, FloatingSelectComponent, LoadingSpinnerComponent],
+  imports: [ReactiveFormsModule, StepperComponent, EcoButtonComponent, GlassCardComponent, FloatingInputComponent, FloatingSelectComponent, FloatingAutocompleteComponent, LoadingSpinnerComponent],
   templateUrl: './datos-comunidad.html',
   styleUrl: './datos-comunidad.css'
 })
@@ -29,6 +31,7 @@ export class DatosComunidadPage implements OnInit {
   private router = inject(Router);
   private comunidadService = inject(ComunidadService);
   private toast = inject(ToastService);
+  private cpService = inject(CodigoPostalService);
 
   steps = ['Generales', 'Energéticos', 'Ambientales', 'Económicos'];
   currentStep = signal(0);
@@ -38,6 +41,7 @@ export class DatosComunidadPage implements OnInit {
 
   provincias = PROVINCIAS;
   municipios = signal<readonly string[]>([]);
+  sugerenciasCP = signal<string[]>([]);
   tiposEdificio = TIPOS_EDIFICIO;
   orientaciones = ORIENTACIONES;
   tiposCalefaccion = TIPOS_CALEFACCION;
@@ -86,6 +90,18 @@ export class DatosComunidadPage implements OnInit {
       this.municipios.set(MUNICIPIOS_POR_PROVINCIA[prov] ?? []);
       if (!this.loadingData()) {
         this.form.get('municipio')?.setValue('');
+        this.sugerenciasCP.set([]);
+      }
+    });
+
+    this.form.get('municipio')?.valueChanges.subscribe((muni: string) => {
+      const prov: string = this.form.get('provincia')?.value;
+      if (prov && muni) {
+        this.cpService.getCodigosPostales(prov, muni).subscribe({
+          next: (cps) => this.sugerenciasCP.set(cps)
+        });
+      } else {
+        this.sugerenciasCP.set([]);
       }
     });
   }
