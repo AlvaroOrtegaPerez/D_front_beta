@@ -40,11 +40,13 @@ export class Register {
 
   loading = signal(false);
   showPassword = signal(false);
+  showConfirmPassword = signal(false);
   showRgpdModal = signal(false);
   errorMsg = signal('');
   successMsg = signal('');
 
   togglePassword(): void { this.showPassword.update(v => !v); }
+  toggleConfirmPassword(): void { this.showConfirmPassword.update(v => !v); }
 
   get passwordsMatch(): boolean {
     return this.form.value.password === this.form.value.confirmPassword;

@@ -27,8 +27,8 @@ export class GestoriasService {
     return this.api.get<unknown[]>('gestorias', `/gestorias/documentos?expedienteId=${expedienteId}`);
   }
 
-  uploadDocumento(expedienteId: number, tipoDocumento: string, formData: FormData): Observable<Record<string, unknown>> {
-    return this.api.upload<Record<string, unknown>>('gestorias', `/gestorias/documentos?expedienteId=${expedienteId}&tipoDocumento=${tipoDocumento}`, formData);
+  uploadDocumento(formData: FormData): Observable<Record<string, unknown>> {
+    return this.api.upload<Record<string, unknown>>('gestorias', '/gestorias/documentos', formData);
   }
 
   patchDocumento(documentoId: number, payload: Record<string, unknown>): Observable<Record<string, unknown>> {

@@ -1,3 +1,5 @@
+import { ZONAS_CLIMATICAS, ZONAS_VERANO } from '../constants/energia';
+
 export interface Comunidad {
   id: number;
   comunidades_id?: number;
@@ -15,7 +17,7 @@ export interface Comunidad {
   orientacion?: string;
   tipo_calefaccion?: string;
   bateria?: boolean;
-  codigo_postal?: number;
+  codigo_postal?: string;
   zona_climatica?: string;
   gasto_mensual_energia?: number;
   presupuesto?: number;
@@ -39,6 +41,7 @@ export interface FormDataComunidad {
   baterias: boolean;
   codigoPostal: string;
   zonaClimatica: string;
+  zonaClimaticaVerano: string;
   facturaEnergetica: string;
   presupuestoInversion: string;
 }
@@ -60,6 +63,7 @@ export const INITIAL_FORM_DATA: FormDataComunidad = {
   baterias: false,
   codigoPostal: '',
   zonaClimatica: '',
+  zonaClimaticaVerano: '',
   facturaEnergetica: '',
   presupuestoInversion: '',
 };
@@ -96,10 +100,30 @@ export function mapApiToForm(api: Record<string, unknown>): FormDataComunidad {
     tipoCalefaccion: (api['tipo_calefaccion'] as string) ?? '',
     baterias: Boolean(api['bateria']),
     codigoPostal: safeNumberString(api['codigo_postal']),
-    zonaClimatica: (api['zona_climatica'] as string) ?? '',
+    ...parseZonaClimatica((api['zona_climatica'] as string) ?? ''),
     facturaEnergetica: safeNumberString(api['gasto_mensual_energia']),
     presupuestoInversion: safeNumberString(api['presupuesto']),
   };
+}
+
+function parseZonaClimatica(zc: string): { zonaClimatica: string, zonaClimaticaVerano: string } {
+  if (!zc) return { zonaClimatica: '', zonaClimaticaVerano: '' };
+  const match = zc.match(/^([a-zA-Z\u03B1\u0391]+)(\d+)$/);
+  if (match) {
+    const letter = match[1];
+    const num = match[2];
+    const iv = ZONAS_CLIMATICAS.find(opt => opt.startsWith(letter)) || '';
+    const ve = ZONAS_VERANO.find(opt => opt.startsWith(num)) || '';
+    return { zonaClimatica: iv, zonaClimaticaVerano: ve };
+  }
+  return { zonaClimatica: zc, zonaClimaticaVerano: '' };
+}
+
+function buildZonaClimatica(form: FormDataComunidad): string {
+  if (!form.zonaClimatica && !form.zonaClimaticaVerano) return '';
+  const letter = form.zonaClimatica ? form.zonaClimatica.split(' ')[0] : '';
+  const num = form.zonaClimaticaVerano ? form.zonaClimaticaVerano.split(' ')[0] : '';
+  return `${letter}${num}`;
 }
 
 export function buildPayload(form: FormDataComunidad): Record<string, unknown> {
@@ -119,7 +143,7 @@ export function buildPayload(form: FormDataComunidad): Record<string, unknown> {
     tipo_calefaccion: form.tipoCalefaccion,
     bateria: form.baterias,
     codigo_postal: form.codigoPostal ? Number(form.codigoPostal) : null,
-    zona_climatica: form.zonaClimatica,
+    zona_climatica: buildZonaClimatica(form),
     gasto_mensual_energia: form.facturaEnergetica ? Number(form.facturaEnergetica) : null,
     presupuesto: form.presupuestoInversion ? Number(form.presupuestoInversion) : null,
   };

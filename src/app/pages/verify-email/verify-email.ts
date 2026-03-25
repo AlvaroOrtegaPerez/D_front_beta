@@ -7,7 +7,7 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <div class="auth-layout">
+    <div class="modern-layout">
       <div class="glass-card">
         <div class="header">
           <div class="logo">

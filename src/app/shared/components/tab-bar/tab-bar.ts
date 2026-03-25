@@ -30,11 +30,12 @@ import { Component, Input, Output, EventEmitter, ElementRef, AfterViewInit, view
     }
     .tab-bar::-webkit-scrollbar { display: none; }
     .tab-bar__tab {
+      flex: 1; text-align: center;
       padding: 10px 20px; border-radius: 10px; font-size: 0.9rem;
       font-weight: 600; color: #64748b; cursor: pointer;
       background: none; border: none; white-space: nowrap;
       transition: color 0.2s; position: relative; z-index: 1;
-      font-family: inherit; flex-shrink: 0;
+      font-family: inherit;
     }
     .tab-bar__tab--active { color: #047857; }
     .tab-bar__tab:hover:not(.tab-bar__tab--active) { color: #1e293b; }

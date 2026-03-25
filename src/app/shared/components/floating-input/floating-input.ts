@@ -10,13 +10,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         [type]="type"
         [id]="inputId"
         class="fi-input"
-        placeholder=" "
+        [placeholder]="placeholderText"
         [value]="value"
         [disabled]="isDisabled"
         [attr.min]="min"
         [attr.max]="max"
         [attr.maxlength]="maxlength"
         (input)="onInput($event)"
+        (keydown)="onKeyDown($event)"
         (blur)="onTouched()" />
       <label class="fi-label" [for]="inputId">{{ label }}</label>
       @if (error) { <span class="fi-error">{{ error }}</span> }
@@ -43,6 +44,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     .fi-input:not(:placeholder-shown) ~ .fi-label {
       top: 12px; font-size: 0.75rem; font-weight: 600; color: #10b981;
     }
+    .fi-input::placeholder { color: transparent; }
+    .fi-input:focus::placeholder { color: #94a3b8; }
     .fi-group--error .fi-input { border-color: #ef4444; }
     .fi-group--error .fi-input:focus { box-shadow: 0 0 0 4px rgba(239,68,68,0.1); }
     .fi-error { display: block; font-size: 0.75rem; color: #ef4444; margin-top: 4px; padding-left: 4px; }
@@ -62,6 +65,7 @@ export class FloatingInputComponent implements ControlValueAccessor {
   @Input() min?: string;
   @Input() max?: string;
   @Input() maxlength?: string;
+  @Input() placeholderText = ' ';
 
   value = '';
   isDisabled = false;
@@ -77,5 +81,13 @@ export class FloatingInputComponent implements ControlValueAccessor {
     const val = (event.target as HTMLInputElement).value;
     this.value = val;
     this.onChange(val);
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (this.type === 'number') {
+      if (event.key === '-' || event.key === '+') {
+        event.preventDefault();
+      }
+    }
   }
 }

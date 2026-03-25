@@ -30,10 +30,17 @@ export const TIPOS_CALEFACCION: readonly string[] = [
 ] as const;
 
 export const ZONAS_CLIMATICAS: readonly string[] = [
-  'α',
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
+  'α (Canarias)',
+  'A (Cálido)',
+  'B (Templado cálido)',
+  'C (Templado)',
+  'D (Templado frío)',
+  'E (Frío)',
+] as const;
+
+export const ZONAS_VERANO: readonly string[] = [
+  '1 (Ligero)',
+  '2 (Medio)',
+  '3 (Caluroso)',
+  '4 (Muy caluroso)',
 ] as const;
