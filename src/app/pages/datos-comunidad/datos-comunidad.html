@@ -67,7 +67,34 @@
         <h2 class="step-title">Datos Ambientales</h2>
         <div class="form-grid">
           <app-floating-input label="Código postal *" formControlName="codigoPostal" maxlength="5" placeholderText="Ej: 28001" />
-          <app-floating-select label="Zona climática (CTE)" [options]="zonasClimaticas" formControlName="zonaClimatica" />
+          <app-floating-select label="Zona climática de invierno (CTE)" [options]="zonasClimaticas" formControlName="zonaClimatica" />
+          <app-floating-select label="Zona climática de verano (CTE)" [options]="zonasVerano" formControlName="zonaClimaticaVerano" />
+        </div>
+        
+        <div class="cte-info">
+          <h4>Clasificación detallada del CTE:</h4>
+          <div class="cte-info-grid">
+            <div class="cte-info-col">
+              <h5>• Invierno (Letras A-E):</h5>
+              <ul>
+                <li><strong>α (Alfa):</strong> Muy suave (p. ej., Canarias costa).</li>
+                <li><strong>A:</strong> Suave.</li>
+                <li><strong>B:</strong> Templado.</li>
+                <li><strong>C:</strong> Frío.</li>
+                <li><strong>D:</strong> Muy frío.</li>
+                <li><strong>E:</strong> Extremo (zonas altas/interior).</li>
+              </ul>
+            </div>
+            <div class="cte-info-col">
+              <h5>• Verano (Números 1-4):</h5>
+              <ul>
+                <li><strong>1:</strong> Ligero.</li>
+                <li><strong>2:</strong> Medio.</li>
+                <li><strong>3:</strong> Caluroso.</li>
+                <li><strong>4:</strong> Muy caluroso.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       }
 

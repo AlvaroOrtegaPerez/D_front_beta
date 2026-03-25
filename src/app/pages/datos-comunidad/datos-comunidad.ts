@@ -6,7 +6,7 @@ import { ToastService } from '../../core/services/toast.service';
 import { mapApiToForm, buildPayload } from '../../models/comunidad.model';
 import { PROVINCIAS } from '../../constants/provincias';
 import { MUNICIPIOS_POR_PROVINCIA } from '../../constants/municipios-por-provincia';
-import { FUENTES_ENERGIA_OPTIONS, TIPOS_EDIFICIO, ORIENTACIONES, TIPOS_CALEFACCION, ZONAS_CLIMATICAS } from '../../constants/energia';
+import { FUENTES_ENERGIA_OPTIONS, TIPOS_EDIFICIO, ORIENTACIONES, TIPOS_CALEFACCION, ZONAS_CLIMATICAS, ZONAS_VERANO } from '../../constants/energia';
 import { StepperComponent } from '../../shared/components/stepper/stepper';
 import { EcoButtonComponent } from '../../shared/components/eco-button/eco-button';
 import { GlassCardComponent } from '../../shared/components/glass-card/glass-card';
@@ -40,6 +40,7 @@ export class DatosComunidadPage implements OnInit {
   orientaciones = ORIENTACIONES;
   tiposCalefaccion = TIPOS_CALEFACCION;
   zonasClimaticas = ZONAS_CLIMATICAS;
+  zonasVerano = ZONAS_VERANO;
   fuentesEnergiaOpts = FUENTES_ENERGIA_OPTIONS;
 
   form: FormGroup = this.fb.group({
@@ -59,6 +60,7 @@ export class DatosComunidadPage implements OnInit {
     baterias: [false],
     codigoPostal: ['', Validators.required],
     zonaClimatica: [''],
+    zonaClimaticaVerano: [''],
     facturaEnergetica: ['', Validators.required],
     presupuestoInversion: [''],
   });

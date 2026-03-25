@@ -384,7 +384,8 @@ body.dark-theme .pack-recomendado,
 body.dark-theme .score-section,
 body.dark-theme .chart-wrap,
 body.dark-theme .informe-card,
-body.dark-theme .cert-energetico {
+body.dark-theme .cert-energetico,
+body.dark-theme .cte-info {
   background: var(--glass-bg, rgba(30,41,59,0.8)) !important;
   border-color: #334155 !important;
 }
@@ -403,10 +404,14 @@ body.dark-theme .upload-section h4,
 body.dark-theme .doc-name,
 body.dark-theme .cert-bar-title,
 body.dark-theme .elig-val,
+body.dark-theme .cte-info h4,
+body.dark-theme .cte-info-col strong,
 body.dark-theme .data-table td { color: #f1f5f9 !important; }
 
 body.dark-theme .ficha-rapida__label,
 body.dark-theme .score-item,
+body.dark-theme .cte-info-col h5,
+body.dark-theme .cte-info-col li,
 body.dark-theme .cert-bar-value { color: #94a3b8 !important; }
 
 body.dark-theme .data-table th {
