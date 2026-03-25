@@ -44,3 +44,34 @@ export const ZONAS_VERANO: readonly string[] = [
   '3 (Caluroso)',
   '4 (Muy caluroso)',
 ] as const;
+
+export const ESTADO_AISLAMIENTO_OPTIONS = [
+  { value: 'MUY_MALO', label: 'Muy mejorable' },
+  { value: 'MALO', label: 'Mejorable' },
+  { value: 'MEDIO', label: 'Aceptable' },
+  { value: 'BUENO', label: 'Bueno' },
+  { value: 'MUY_BUENO', label: 'Muy bueno' },
+  { value: 'DESCONOCIDO', label: 'No lo sé' },
+];
+
+export const TIPO_VENTANAS_OPTIONS = [
+  { value: 'SIMPLE', label: 'Antiguas (una sola hoja)' },
+  { value: 'DOBLE', label: 'Doble ventana' },
+  { value: 'DOBLE_MODERNO', label: 'Ventanas modernas (aislantes)' },
+  { value: 'DESCONOCIDO', label: 'No lo sé' },
+];
+
+export const SENSACION_TERMICA_INVIERNO_OPTIONS = [
+  { value: 'MUY_FRIO', label: 'Muy frío' },
+  { value: 'FRIO', label: 'Algo frío' },
+  { value: 'NORMAL', label: 'Confortable' },
+  { value: 'CALIDO', label: 'Cálido' },
+];
+
+export const CORRIENTES_AIRE_OPTIONS = [
+  { value: 'ALTAS', label: 'Muchas' },
+  { value: 'MEDIAS', label: 'Algunas' },
+  { value: 'BAJAS', label: 'Pocas' },
+  { value: 'NO', label: 'Ninguna' },
+  { value: 'DESCONOCIDO', label: 'No lo sé' },
+];

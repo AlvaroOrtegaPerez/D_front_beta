@@ -22,6 +22,10 @@ export interface Comunidad {
   gasto_mensual_energia?: number;
   presupuesto?: number;
   archivada?: boolean;
+  estado_aislamiento?: string;
+  tipo_ventanas?: string;
+  sensacion_termica_invierno?: string;
+  corrientes_aire?: string;
 }
 
 export interface FormDataComunidad {
@@ -44,6 +48,10 @@ export interface FormDataComunidad {
   zonaClimaticaVerano: string;
   facturaEnergetica: string;
   presupuestoInversion: string;
+  estadoAislamiento: string;
+  tipoVentanas: string;
+  sensacionTermicaInvierno: string;
+  corrientesAire: string;
 }
 
 export const INITIAL_FORM_DATA: FormDataComunidad = {
@@ -66,6 +74,10 @@ export const INITIAL_FORM_DATA: FormDataComunidad = {
   zonaClimaticaVerano: '',
   facturaEnergetica: '',
   presupuestoInversion: '',
+  estadoAislamiento: '',
+  tipoVentanas: '',
+  sensacionTermicaInvierno: '',
+  corrientesAire: '',
 };
 
 export function safeNumberString(v: unknown): string {
@@ -103,6 +115,10 @@ export function mapApiToForm(api: Record<string, unknown>): FormDataComunidad {
     ...parseZonaClimatica((api['zona_climatica'] as string) ?? ''),
     facturaEnergetica: safeNumberString(api['gasto_mensual_energia']),
     presupuestoInversion: safeNumberString(api['presupuesto']),
+    estadoAislamiento: (api['estado_aislamiento'] as string) ?? '',
+    tipoVentanas: (api['tipo_ventanas'] as string) ?? '',
+    sensacionTermicaInvierno: (api['sensacion_termica_invierno'] as string) ?? '',
+    corrientesAire: (api['corrientes_aire'] as string) ?? '',
   };
 }
 
@@ -146,6 +162,10 @@ export function buildPayload(form: FormDataComunidad): Record<string, unknown> {
     zona_climatica: buildZonaClimatica(form),
     gasto_mensual_energia: form.facturaEnergetica ? Number(form.facturaEnergetica) : null,
     presupuesto: form.presupuestoInversion ? Number(form.presupuestoInversion) : null,
+    estado_aislamiento: form.estadoAislamiento || null,
+    tipo_ventanas: form.tipoVentanas || null,
+    sensacion_termica_invierno: form.sensacionTermicaInvierno || null,
+    corrientes_aire: form.corrientesAire || null,
   };
 }
 

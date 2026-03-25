@@ -16,7 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         (blur)="onTouched()">
         <option value="" disabled selected hidden></option>
         @for (opt of options; track opt) {
-          <option [value]="opt">{{ opt }}</option>
+          <option [value]="opt.value ?? opt">{{ opt.label ?? opt }}</option>
         }
       </select>
       <label class="fs-label" [for]="inputId" [class.fs-label--up]="!!value">{{ label }}</label>
@@ -58,7 +58,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class FloatingSelectComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() inputId = 'fs-' + Math.random().toString(36).slice(2, 8);
-  @Input() options: readonly string[] = [];
+  @Input() options: readonly any[] = [];
   @Input() error = '';
 
   value = '';

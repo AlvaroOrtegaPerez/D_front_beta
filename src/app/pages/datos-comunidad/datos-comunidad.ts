@@ -6,7 +6,9 @@ import { ToastService } from '../../core/services/toast.service';
 import { mapApiToForm, buildPayload } from '../../models/comunidad.model';
 import { PROVINCIAS } from '../../constants/provincias';
 import { MUNICIPIOS_POR_PROVINCIA } from '../../constants/municipios-por-provincia';
-import { FUENTES_ENERGIA_OPTIONS, TIPOS_EDIFICIO, ORIENTACIONES, TIPOS_CALEFACCION, ZONAS_CLIMATICAS, ZONAS_VERANO } from '../../constants/energia';
+import { FUENTES_ENERGIA_OPTIONS, TIPOS_EDIFICIO, ORIENTACIONES, TIPOS_CALEFACCION, ZONAS_CLIMATICAS, ZONAS_VERANO,
+ESTADO_AISLAMIENTO_OPTIONS, TIPO_VENTANAS_OPTIONS, SENSACION_TERMICA_INVIERNO_OPTIONS, CORRIENTES_AIRE_OPTIONS 
+} from '../../constants/energia';
 import { StepperComponent } from '../../shared/components/stepper/stepper';
 import { EcoButtonComponent } from '../../shared/components/eco-button/eco-button';
 import { GlassCardComponent } from '../../shared/components/glass-card/glass-card';
@@ -42,6 +44,10 @@ export class DatosComunidadPage implements OnInit {
   zonasClimaticas = ZONAS_CLIMATICAS;
   zonasVerano = ZONAS_VERANO;
   fuentesEnergiaOpts = FUENTES_ENERGIA_OPTIONS;
+  estadoAislamientoOpts = ESTADO_AISLAMIENTO_OPTIONS;
+  tipoVentanasOpts = TIPO_VENTANAS_OPTIONS;
+  sensacionTermicaOpts = SENSACION_TERMICA_INVIERNO_OPTIONS;
+  corrientesAireOpts = CORRIENTES_AIRE_OPTIONS;
 
   form: FormGroup = this.fb.group({
     nombreComunidad: ['', Validators.required],
@@ -57,6 +63,10 @@ export class DatosComunidadPage implements OnInit {
     area_techo_m2: ['', Validators.required],
     orientacion: [''],
     tipoCalefaccion: ['', Validators.required],
+    estadoAislamiento: [''],
+    tipoVentanas: [''],
+    sensacionTermicaInvierno: [''],
+    corrientesAire: [''],
     baterias: [false],
     codigoPostal: ['', Validators.required],
     zonaClimatica: [''],

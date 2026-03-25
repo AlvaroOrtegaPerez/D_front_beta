@@ -60,6 +60,13 @@
             </label>
           </div>
         </div>
+        
+        <div class="form-grid" style="margin-top: 24px;">
+          <app-floating-select label="¿Cómo describirías el aislamiento?" [options]="estadoAislamientoOpts" formControlName="estadoAislamiento" />
+          <app-floating-select label="¿Qué tipo de ventanas tiene el edificio?" [options]="tipoVentanasOpts" formControlName="tipoVentanas" />
+          <app-floating-select label="En invierno, el edificio suele ser..." [options]="sensacionTermicaOpts" formControlName="sensacionTermicaInvierno" />
+          <app-floating-select label="¿Se notan corrientes de aire?" [options]="corrientesAireOpts" formControlName="corrientesAire" />
+        </div>
       }
 
       <!-- Step 3: Ambientales -->
