@@ -370,12 +370,22 @@ body.dark-theme .tab-bar__indicator { background: #334155 !important; }
 
 body.dark-theme .selector-label,
 body.dark-theme .resumen-text { color: #94a3b8 !important; }
+
 body.dark-theme .selector-select,
-body.dark-theme .form-control { 
-  background: var(--glass-bg, rgba(30,41,59,0.8)) !important;
+body.dark-theme .form-control,
+body.dark-theme .fi-input,
+body.dark-theme .fs-select { 
+  background: rgba(30,41,59,0.8) !important;
   border-color: #334155 !important;
   color: #f1f5f9 !important;
 }
+
+body.dark-theme .fi-input:focus,
+body.dark-theme .fs-select:focus {
+  background: #1e293b !important;
+  border-color: #10b981 !important;
+}
+
 
 body.dark-theme .ficha-rapida,
 body.dark-theme .table-wrap,
