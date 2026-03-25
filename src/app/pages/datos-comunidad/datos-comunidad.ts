@@ -55,7 +55,7 @@ export class DatosComunidadPage implements OnInit {
     municipio: ['', Validators.required],
     tipoEdificio: ['', Validators.required],
     anioConstruccion: [''],
-    numViviendas: ['', Validators.required],
+    numViviendas: ['', [Validators.required, Validators.min(1)]],
     numPlantas: [''],
     consumoElectrico: ['', Validators.required],
     consumoTermico: [''],
@@ -63,10 +63,10 @@ export class DatosComunidadPage implements OnInit {
     area_techo_m2: ['', Validators.required],
     orientacion: [''],
     tipoCalefaccion: ['', Validators.required],
-    estadoAislamiento: [''],
-    tipoVentanas: [''],
-    sensacionTermicaInvierno: [''],
-    corrientesAire: [''],
+    estadoAislamiento: ['', Validators.required],
+    tipoVentanas: ['', Validators.required],
+    sensacionTermicaInvierno: ['', Validators.required],
+    corrientesAire: ['', Validators.required],
     baterias: [false],
     codigoPostal: ['', Validators.required],
     zonaClimatica: [''],
@@ -118,6 +118,44 @@ export class DatosComunidadPage implements OnInit {
   }
 
   next(): void {
+    const s = this.currentStep();
+    const fieldsToValidate = [
+      ['nombreComunidad', 'provincia', 'municipio', 'tipoEdificio', 'numViviendas'], // 0: Generales
+      ['consumoElectrico', 'fuentesEnergia', 'area_techo_m2', 'tipoCalefaccion', 'estadoAislamiento', 'tipoVentanas', 'sensacionTermicaInvierno', 'corrientesAire'], // 1: Energéticos
+      ['codigoPostal'], // 2: Ambientales
+      ['facturaEnergetica'] // 3: Económicos
+    ][s] || [];
+
+    if (s === 0) {
+      const numViviendasCtrl = this.form.get('numViviendas');
+      if (numViviendasCtrl?.hasError('min') || (numViviendasCtrl?.value !== '' && Number(numViviendasCtrl?.value) < 1)) {
+        this.toast.error('Error: el número de viviendas tiene que ser 1 o mayor que uno');
+        return;
+      }
+    }
+
+    if (s === 1) {
+      const fuentesCtrl = this.form.get('fuentesEnergia');
+      if (!fuentesCtrl?.value || fuentesCtrl.value.length === 0) {
+        this.toast.error('Por favor, selecciona al menos una fuente de energía');
+        return;
+      }
+    }
+
+    let isValid = true;
+    for (const field of fieldsToValidate) {
+      const control = this.form.get(field);
+      control?.markAsTouched();
+      if (control?.invalid) {
+        isValid = false;
+      }
+    }
+
+    if (!isValid) {
+      this.toast.error('Por favor, completa correctamente los campos obligatorios de este paso');
+      return;
+    }
+
     if (this.currentStep() < this.steps.length - 1) {
       this.currentStep.update(s => s + 1);
     }
@@ -130,8 +168,19 @@ export class DatosComunidadPage implements OnInit {
   }
 
   onSubmit(): void {
+    const s = this.currentStep();
+    if (s === 3) {
+      const fields = ['facturaEnergetica'];
+      for (const field of fields) {
+        if (this.form.get(field)?.invalid) {
+          this.toast.error('Por favor, completa correctamente los campos obligatorios de este paso');
+          return;
+        }
+      }
+    }
+    
     if (this.form.invalid) {
-      this.toast.error('Por favor, completa todos los campos obligatorios');
+      this.toast.error('Por favor, revisa que todos los pasos estén completos y sin errores');
       return;
     }
     this.loading.set(true);

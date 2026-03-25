@@ -22,7 +22,7 @@
           <app-floating-select label="Municipio *" [options]="municipios()" formControlName="municipio" />
           <app-floating-select label="Tipo de edificio *" [options]="tiposEdificio" formControlName="tipoEdificio" />
           <app-floating-input label="Año de construcción" type="number" formControlName="anioConstruccion" min="0" placeholderText="Ej: 2020" />
-          <app-floating-input label="Número de viviendas *" type="number" formControlName="numViviendas" min="0" placeholderText="Ej: 24" />
+          <app-floating-input label="Número de viviendas *" type="number" formControlName="numViviendas" min="1" placeholderText="Ej: 24" />
           <app-floating-input label="Número de plantas" type="number" formControlName="numPlantas" min="0" placeholderText="Ej: 5" />
         </div>
       }
@@ -62,10 +62,10 @@
         </div>
         
         <div class="form-grid" style="margin-top: 24px;">
-          <app-floating-select label="¿Cómo describirías el aislamiento?" [options]="estadoAislamientoOpts" formControlName="estadoAislamiento" />
-          <app-floating-select label="¿Qué tipo de ventanas tiene el edificio?" [options]="tipoVentanasOpts" formControlName="tipoVentanas" />
-          <app-floating-select label="En invierno, el edificio suele ser..." [options]="sensacionTermicaOpts" formControlName="sensacionTermicaInvierno" />
-          <app-floating-select label="¿Se notan corrientes de aire?" [options]="corrientesAireOpts" formControlName="corrientesAire" />
+          <app-floating-select label="¿Cómo describirías el aislamiento? *" [options]="estadoAislamientoOpts" formControlName="estadoAislamiento" />
+          <app-floating-select label="¿Qué tipo de ventanas tiene el edificio? *" [options]="tipoVentanasOpts" formControlName="tipoVentanas" />
+          <app-floating-select label="En invierno, el edificio suele ser... *" [options]="sensacionTermicaOpts" formControlName="sensacionTermicaInvierno" />
+          <app-floating-select label="¿Se notan corrientes de aire? *" [options]="corrientesAireOpts" formControlName="corrientesAire" />
         </div>
       }
 
