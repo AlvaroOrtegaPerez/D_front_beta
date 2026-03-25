@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ComunidadService } from '../../core/services/comunidad.service';
 import { ToastService } from '../../core/services/toast.service';
-import { mapApiToForm, buildPayload } from '../../models/comunidad.model';
+import { Comunidad, mapApiToForm, buildPayload } from '../../models/comunidad.model';
 import { PROVINCIAS } from '../../constants/provincias';
 import { MUNICIPIOS_POR_PROVINCIA } from '../../constants/municipios-por-provincia';
 import { FUENTES_ENERGIA_OPTIONS, TIPOS_EDIFICIO, ORIENTACIONES, TIPOS_CALEFACCION, ZONAS_CLIMATICAS, ZONAS_VERANO,
@@ -52,6 +52,7 @@ export class DatosComunidadPage implements OnInit {
   tipoVentanasOpts = TIPO_VENTANAS_OPTIONS;
   sensacionTermicaOpts = SENSACION_TERMICA_INVIERNO_OPTIONS;
   corrientesAireOpts = CORRIENTES_AIRE_OPTIONS;
+  comunidadesExistentes = signal<Comunidad[]>([]);
 
   form: FormGroup = this.fb.group({
     nombreComunidad: ['', Validators.required],
@@ -104,6 +105,15 @@ export class DatosComunidadPage implements OnInit {
         this.sugerenciasCP.set([]);
       }
     });
+
+    this.cargarComunidades();
+  }
+
+  private cargarComunidades(): void {
+    this.comunidadService.getComunidades().subscribe({
+      next: (list) => this.comunidadesExistentes.set(list),
+      error: () => console.error('Error cargando comunidades para validación')
+    });
   }
 
   private loadExisting(id: number): void {
@@ -143,6 +153,16 @@ export class DatosComunidadPage implements OnInit {
     ][s] || [];
 
     if (s === 0) {
+      const nombre = this.form.get('nombreComunidad')?.value?.trim().toLowerCase();
+      const duplicado = this.comunidadesExistentes().find(c => 
+        c.comunidad?.trim().toLowerCase() === nombre && c.id !== this.editId()
+      );
+
+      if (duplicado) {
+        this.toast.error('Error: Ya existe una comunidad con este nombre');
+        return;
+      }
+
       const numViviendasCtrl = this.form.get('numViviendas');
       if (numViviendasCtrl?.hasError('min') || (numViviendasCtrl?.value !== '' && Number(numViviendasCtrl?.value) < 1)) {
         this.toast.error('Error: el número de viviendas tiene que ser 1 o mayor que uno');
@@ -185,6 +205,17 @@ export class DatosComunidadPage implements OnInit {
 
   onSubmit(): void {
     const s = this.currentStep();
+    
+    const nombre = this.form.get('nombreComunidad')?.value?.trim().toLowerCase();
+    const duplicado = this.comunidadesExistentes().find(c => 
+      c.comunidad?.trim().toLowerCase() === nombre && c.id !== this.editId()
+    );
+
+    if (duplicado) {
+      this.toast.error('Error: Ya existe una comunidad con este nombre');
+      return;
+    }
+
     if (s === 3) {
       const fields = ['facturaEnergetica'];
       for (const field of fields) {
