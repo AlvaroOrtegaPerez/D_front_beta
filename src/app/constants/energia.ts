@@ -1,9 +1,10 @@
-export const FUENTES_ENERGIA_OPTIONS: readonly string[] = [
-  'Electricidad',
-  'Gas natural',
-  'Gasóleo',
-  'Biomasa',
-  'Otros',
+export const FUENTES_ENERGIA_OPTIONS = [
+  { label: 'Electricidad', value: 'ELECTRICIDAD' },
+  { label: 'Gas natural',  value: 'GAS_NATURAL'  },
+  { label: 'Gasóleo',      value: 'GASOIL'        },
+  { label: 'Biomasa',      value: 'BIOMASA'       },
+  { label: 'Mixto',        value: 'MIXTA'         },
+  { label: 'No lo sé',     value: 'DESCONOCIDO'   },
 ] as const;
 
 export const TIPOS_EDIFICIO: readonly string[] = [

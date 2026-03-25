@@ -37,9 +37,9 @@
         <div class="fuentes-section">
           <label class="fuentes-label">Fuentes de energía actuales *</label>
           <div class="fuentes-grid">
-            @for (fuente of fuentesEnergiaOpts; track fuente) {
-              <label class="fuente-chip" [class.fuente-chip--active]="isFuenteSelected(fuente)" (click)="toggleFuente(fuente)">
-                {{ fuente }}
+            @for (fuente of fuentesEnergiaOpts; track fuente.value) {
+              <label class="fuente-chip" [class.fuente-chip--active]="isFuenteSelected(fuente.value)" (click)="toggleFuente(fuente.value)">
+                {{ fuente.label }}
               </label>
             }
           </div>
