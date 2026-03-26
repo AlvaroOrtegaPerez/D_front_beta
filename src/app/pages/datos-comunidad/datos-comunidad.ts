@@ -7,7 +7,8 @@ import { Comunidad, mapApiToForm, buildPayload } from '../../models/comunidad.mo
 import { PROVINCIAS } from '../../constants/provincias';
 import { MUNICIPIOS_POR_PROVINCIA } from '../../constants/municipios-por-provincia';
 import { FUENTES_ENERGIA_OPTIONS, TIPOS_EDIFICIO, ORIENTACIONES, TIPOS_CALEFACCION, ZONAS_CLIMATICAS, ZONAS_VERANO,
-ESTADO_AISLAMIENTO_OPTIONS, TIPO_VENTANAS_OPTIONS, SENSACION_TERMICA_INVIERNO_OPTIONS, CORRIENTES_AIRE_OPTIONS 
+ESTADO_AISLAMIENTO_OPTIONS, TIPO_VENTANAS_OPTIONS, SENSACION_TERMICA_INVIERNO_OPTIONS, CORRIENTES_AIRE_OPTIONS,
+CONDICIONES_ENTORNO_OPTIONS, TIPOS_CALEFACCION_CHIPS
 } from '../../constants/energia';
 import { StepperComponent } from '../../shared/components/stepper/stepper';
 import { EcoButtonComponent } from '../../shared/components/eco-button/eco-button';
@@ -44,7 +45,7 @@ export class DatosComunidadPage implements OnInit {
   sugerenciasCP = signal<string[]>([]);
   tiposEdificio = TIPOS_EDIFICIO;
   orientaciones = ORIENTACIONES;
-  tiposCalefaccion = TIPOS_CALEFACCION;
+  tiposCalefaccionChips = TIPOS_CALEFACCION_CHIPS;
   zonasClimaticas = ZONAS_CLIMATICAS;
   zonasVerano = ZONAS_VERANO;
   fuentesEnergiaOpts = FUENTES_ENERGIA_OPTIONS;
@@ -52,6 +53,7 @@ export class DatosComunidadPage implements OnInit {
   tipoVentanasOpts = TIPO_VENTANAS_OPTIONS;
   sensacionTermicaOpts = SENSACION_TERMICA_INVIERNO_OPTIONS;
   corrientesAireOpts = CORRIENTES_AIRE_OPTIONS;
+  condicionesEntornoOpts = CONDICIONES_ENTORNO_OPTIONS;
   comunidadesExistentes = signal<Comunidad[]>([]);
 
   form: FormGroup = this.fb.group({
@@ -72,6 +74,7 @@ export class DatosComunidadPage implements OnInit {
     tipoVentanas: ['', Validators.required],
     sensacionTermicaInvierno: ['', Validators.required],
     corrientesAire: ['', Validators.required],
+    condicionesEntorno: [[] as string[]],
     baterias: [false],
     codigoPostal: ['', Validators.required],
     zonaClimatica: [''],
@@ -129,13 +132,51 @@ export class DatosComunidadPage implements OnInit {
     });
   }
 
+  selectCalefaccion(val: string): void {
+    this.form.get('tipoCalefaccion')?.setValue(val);
+  }
+
+  isCalefaccionSelected(val: string): boolean {
+    return this.form.get('tipoCalefaccion')?.value === val;
+  }
+
+  toggleCondicion(val: string): void {
+    const current: string[] = this.form.get('condicionesEntorno')?.value ?? [];
+    
+    if (val === 'NINGUNA' || val === 'DESCONOCIDO') {
+      this.form.get('condicionesEntorno')?.setValue([val]);
+      return;
+    }
+    
+    const newValues = current.includes(val)
+      ? current.filter(v => v !== val)
+      : [...current, val];
+      
+    // Si seleccionamos algo que no es NINGUNA/DESCONOCIDO, quitamos esas marcas
+    this.form.get('condicionesEntorno')?.setValue(
+      newValues.filter(v => v !== 'NINGUNA' && v !== 'DESCONOCIDO')
+    );
+  }
+
+  isCondicionSelected(val: string): boolean {
+    return (this.form.get('condicionesEntorno')?.value ?? []).includes(val);
+  }
+
   toggleFuente(fuente: string): void {
     const current: string[] = this.form.get('fuentesEnergia')?.value ?? [];
-    if (current.includes(fuente)) {
-      this.form.get('fuentesEnergia')?.setValue(current.filter(f => f !== fuente));
-    } else {
-      this.form.get('fuentesEnergia')?.setValue([...current, fuente]);
+    
+    if (fuente === 'DESCONOCIDO') {
+      this.form.get('fuentesEnergia')?.setValue(['DESCONOCIDO']);
+      return;
     }
+
+    const newValues = current.includes(fuente)
+      ? current.filter(f => f !== fuente)
+      : [...current, fuente];
+
+    this.form.get('fuentesEnergia')?.setValue(
+      newValues.filter(v => v !== 'DESCONOCIDO')
+    );
   }
 
   isFuenteSelected(fuente: string): boolean {

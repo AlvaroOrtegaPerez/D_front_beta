@@ -52,6 +52,7 @@ export interface FormDataComunidad {
   tipoVentanas: string;
   sensacionTermicaInvierno: string;
   corrientesAire: string;
+  condicionesEntorno: string[];
 }
 
 export const INITIAL_FORM_DATA: FormDataComunidad = {
@@ -78,6 +79,7 @@ export const INITIAL_FORM_DATA: FormDataComunidad = {
   tipoVentanas: '',
   sensacionTermicaInvierno: '',
   corrientesAire: '',
+  condicionesEntorno: [],
 };
 
 export function safeNumberString(v: unknown): string {
@@ -119,6 +121,7 @@ export function mapApiToForm(api: Record<string, unknown>): FormDataComunidad {
     tipoVentanas: (api['tipo_ventanas'] as string) ?? '',
     sensacionTermicaInvierno: (api['sensacion_termica_invierno'] as string) ?? '',
     corrientesAire: (api['corrientes_aire'] as string) ?? '',
+    condicionesEntorno: splitFuentesEnergia(api['condiciones_entorno']),
   };
 }
 
@@ -166,6 +169,7 @@ export function buildPayload(form: FormDataComunidad): Record<string, unknown> {
     tipo_ventanas: form.tipoVentanas || null,
     sensacion_termica_invierno: form.sensacionTermicaInvierno || null,
     corrientes_aire: form.corrientesAire || null,
+    condiciones_entorno: form.condicionesEntorno?.join(', ') || null,
   };
 }
 

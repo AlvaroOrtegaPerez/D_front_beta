@@ -35,7 +35,7 @@
           <app-floating-input label="Consumo térmico mensual (kWh)" type="number" formControlName="consumoTermico" min="0" placeholderText="Ej: 800" />
         </div>
         <div class="fuentes-section">
-          <label class="fuentes-label">Fuentes de energía actuales *</label>
+          <label class="fuentes-label">¿Cómo se cubre actualmente la electricidad del edificio? *</label>
           <div class="fuentes-grid">
             @for (fuente of fuentesEnergiaOpts; track fuente.value) {
               <label class="fuente-chip" [class.fuente-chip--active]="isFuenteSelected(fuente.value)" (click)="toggleFuente(fuente.value)">
@@ -44,10 +44,32 @@
             }
           </div>
         </div>
+        
+        <div class="fuentes-section">
+          <label class="fuentes-label">¿Qué tipo de calefacción tiene actualmente el edificio? *</label>
+          <div class="fuentes-grid">
+            @for (cal of tiposCalefaccionChips; track cal.value) {
+              <label class="fuente-chip" [class.fuente-chip--active]="isCalefaccionSelected(cal.value)" (click)="selectCalefaccion(cal.value)">
+                {{ cal.label }}
+              </label>
+            }
+          </div>
+        </div>
+        
+        <div class="fuentes-section">
+          <label class="fuentes-label"> ¿Hay alguna de estas condiciones cerca?</label>
+          <div class="fuentes-grid">
+            @for (cond of condicionesEntornoOpts; track cond.value) {
+              <label class="fuente-chip" [class.fuente-chip--active]="isCondicionSelected(cond.value)" (click)="toggleCondicion(cond.value)">
+                {{ cond.label }}
+              </label>
+            }
+          </div>
+        </div>
+
         <div class="form-grid">
           <app-floating-input label="Área de techo/patio (m²) *" type="number" formControlName="area_techo_m2" min="0" placeholderText="Ej: 200" />
           <app-floating-select label="Orientación" [options]="orientaciones" formControlName="orientacion" />
-          <app-floating-select label="Tipo de calefacción *" [options]="tiposCalefaccion" formControlName="tipoCalefaccion" />
         </div>
         <div class="radio-section">
           <label class="radio-label">¿Sistema de baterías/almacenamiento?</label>

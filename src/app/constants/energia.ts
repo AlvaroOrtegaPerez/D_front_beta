@@ -1,10 +1,29 @@
 export const FUENTES_ENERGIA_OPTIONS = [
-  { label: 'Electricidad', value: 'ELECTRICIDAD' },
-  { label: 'Gas natural',  value: 'GAS_NATURAL'  },
-  { label: 'Gasóleo',      value: 'GASOIL'        },
-  { label: 'Biomasa',      value: 'BIOMASA'       },
-  { label: 'Mixto',        value: 'MIXTA'         },
-  { label: 'No lo sé',     value: 'DESCONOCIDO'   },
+  { label: 'Red eléctrica', value: 'RED_ELECTRICA' },
+  { label: 'Autoconsumo',   value: 'AUTOCONSUMO'   },
+  { label: 'Mixta',         value: 'MIXTA'          },
+  { label: 'No lo sé',      value: 'DESCONOCIDO'    },
+] as const;
+
+export const TIPOS_CALEFACCION_CHIPS = [
+  { label: 'Gas',                  value: 'RADIADORES_GAS'        },
+  { label: 'Gasóleo',              value: 'RADIADORES_GASOIL'      },
+  { label: 'Radiadores eléctricos',value: 'RADIADORES_ELECTRICOS' },
+  { label: 'Suelo radiante',       value: 'SUELO_RADIANTE'        },
+  { label: 'Aerotermia',           value: 'AEROTERMIA'            },
+  { label: 'Geotermia',            value: 'GEOTERMIA'             },
+  { label: 'Biomasa',              value: 'BIOMASA'               },
+  { label: 'Bomba de calor',       value: 'BOMBA_CALOR'           },
+  { label: 'Red de calor',         value: 'DISTRICT_HEATING'      },
+  { label: 'Mixta',                value: 'MIXTA'                 },
+  { label: 'No lo sé',             value: 'DESCONOCIDO'           },
+] as const;
+
+export const CONDICIONES_ENTORNO_OPTIONS = [
+  { label: 'Río cercano',                    value: 'RIO_CERCANO'          },
+  { label: 'Canal cercano',                  value: 'CANAL_CERCANO'        },
+  { label: 'Ninguna',                        value: 'NINGUNA'              },
+  { label: 'No lo sé',                       value: 'DESCONOCIDO'          },
 ] as const;
 
 export const TIPOS_EDIFICIO: readonly string[] = [
