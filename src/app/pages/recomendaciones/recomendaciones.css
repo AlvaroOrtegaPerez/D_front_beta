@@ -29,6 +29,125 @@
 
 .metrics-grid--2 { grid-template-columns: repeat(2, 1fr); }
 
+/* === Ficha Rápida === */
+.ficha-rapida {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+.ficha-rapida__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.ficha-rapida__name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+.ficha-rapida__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.ficha-rapida__item {
+  display: flex;
+  flex-direction: column; gap: 2px; }
+.ficha-rapida__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ficha-rapida__value {
+font-size: 0.9rem;
+font-weight: 600;
+color: #1e293b; }
+
+/* === Certificado Energético === */
+.cert-energetico {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+.cert-energetico__cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.cert-letra-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 28px;
+  background: #f8fafc;
+  border-radius: 14px;
+  min-width: 120px;
+}
+.cert-letra-card--post {
+  background: rgba(16,185,129,0.04);
+  border: 2px solid rgba(16,185,129,0.2);
+}
+.cert-letra-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+}
+.cert-letra {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  font-size: 1.8rem;
+  font-weight: 800;
+
+  color: white;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.cert-letra-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cert-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.cert-bar-group { display: flex; flex-direction: column; gap: 10px; }
+.cert-bar-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cert-bar-title { font-size: 0.85rem; font-weight: 700; color: #1e293b; }
+.cert-bar-delta {
+  font-size: 0.82rem; font-weight: 700; color: #94a3b8;
+  padding: 2px 10px; border-radius: 8px; background: #f1f5f9;
+}
+.cert-bar-delta--positive { color: #047857; background: rgba(16,185,129,0.08); }
+.cert-bar-row { display: flex; align-items: center; gap: 10px; }
+.cert-bar-label { font-size: 0.75rem; font-weight: 600; color: #94a3b8; width: 40px; flex-shrink: 0; }
+.cert-bar-track { flex: 1; height: 10px; background: #f1f5f9; border-radius: 5px; overflow: hidden; }
+.cert-bar-fill { height: 100%; border-radius: 5px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.cert-bar-fill--actual { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.cert-bar-fill--post { background: linear-gradient(90deg, #10b981, #047857); }
+.cert-bar-value { font-size: 0.78rem; font-weight: 700; color: #475569; white-space: nowrap; min-width: 90px; text-align: right; }
+
+/* === Actuaciones === */
 .actions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
 
 .action-card { text-align: center; padding: 12px 0; }
@@ -47,6 +166,7 @@
   font-size: 1.1rem; font-weight: 800; color: #10b981;
 }
 
+/* === Mix Energético === */
 .mix-list { display: flex; flex-direction: column; gap: 16px; }
 
 .mix-row { display: flex; align-items: center; gap: 16px; }
@@ -64,6 +184,7 @@
 
 .mix-pct { width: 48px; text-align: right; font-size: 0.9rem; font-weight: 700; color: #1e293b; }
 
+/* === Subvenciones === */
 .eligibility-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px;
 }
@@ -84,6 +205,7 @@
 .elig-item--no { color: #94a3b8; }
 .elig-item--no .elig-dot { background: #cbd5e1; }
 
+/* === Resumen & CTA === */
 .resumen-text { color: #475569; line-height: 1.7; font-size: 0.95rem; white-space: pre-line; }
 
 .cta-section { margin-top: 40px; }
@@ -92,9 +214,45 @@
 .cta-desc { color: #64748b; margin: 0 0 24px; max-width: 440px; margin-inline: auto; line-height: 1.6; }
 .cta-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 
+/* === Responsive === */
 @media (max-width: 768px) {
   .metrics-grid { grid-template-columns: 1fr; }
   .metrics-grid--2 { grid-template-columns: 1fr; }
   .eligibility-grid { grid-template-columns: 1fr; }
   .mix-label { width: 90px; font-size: 0.8rem; }
+
+  .ficha-rapida { padding: 16px; border-radius: 14px; }
+  .ficha-rapida__name { font-size: 1rem; }
+  .ficha-rapida__grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .ficha-rapida__label { font-size: 0.7rem; }
+  .ficha-rapida__value { font-size: 0.85rem; }
+
+  .cert-energetico { padding: 16px; border-radius: 14px; }
+  .cert-energetico__cards { gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .cert-letra-card { padding: 14px 20px; min-width: 100px; }
+  .cert-letra { width: 48px; height: 48px; font-size: 1.5rem; border-radius: 12px; }
+  .cert-bars { grid-template-columns: 1fr; gap: 18px; }
+  .cert-bar-value { min-width: 80px; font-size: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+  .page-title { font-size: 1.5rem; }
+
+  .ficha-rapida { padding: 12px; border-radius: 12px; }
+  .ficha-rapida__name { font-size: 0.92rem; }
+  .ficha-rapida__grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ficha-rapida__value { font-size: 0.8rem; }
+  .ficha-rapida__label { font-size: 0.68rem; }
+
+  .cert-energetico { padding: 14px; border-radius: 12px; }
+  .cert-energetico__cards { gap: 10px; }
+  .cert-letra-card { padding: 12px 16px; min-width: 90px; border-radius: 12px; }
+  .cert-letra-label { font-size: 0.72rem; }
+  .cert-letra { width: 42px; height: 42px; font-size: 1.3rem; border-radius: 10px; }
+  .cert-letra-arrow svg { width: 22px; height: 22px; }
+  .cert-bar-title { font-size: 0.78rem; }
+  .cert-bar-delta { font-size: 0.75rem; padding: 2px 8px; }
+  .cert-bar-value { min-width: 72px; font-size: 0.72rem; }
+  .cert-bar-label { font-size: 0.7rem; width: 34px; }
+  .cert-bar-track { height: 8px; }
 }

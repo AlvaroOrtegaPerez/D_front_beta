@@ -133,7 +133,8 @@ export class DatosComunidadPage implements OnInit {
         next: () => {
           this.loading.set(false);
           this.toast.success('Comunidad actualizada');
-          this.router.navigateByUrl('/mis-comunidades');
+          sessionStorage.setItem('comunidades_id', String(editId));
+          this.router.navigateByUrl('/recomendaciones');
         },
         error: () => { this.loading.set(false); this.toast.error('Error al actualizar'); }
       });
