@@ -183,33 +183,6 @@ export class RecomendacionesPage implements OnInit {
     ].filter(m => m.pct > 0);
   }
 
-  get ahorroItems(): { label: string; eur: number; kwh: number; co2: number }[] {
-    const r = this.recs();
-    if (!r) return [];
-    return [
-      { label: '1er año', eur: r.ahorro_1anio_eur, kwh: r.ahorro_1anio_kwh, co2: r.co2_1anio_kg },
-      { label: '3 años', eur: r.ahorro_3anios_eur, kwh: r.ahorro_3anios_kwh, co2: r.co2_3anios_kg },
-      { label: '5 años', eur: r.ahorro_5anios_eur, kwh: r.ahorro_5anios_kwh, co2: r.co2_5anios_kg },
-    ];
-  }
-
-  get roiItems(): { label: string; value: string; icon: string }[] {
-    const r = this.recs();
-    if (!r) return [];
-    return [
-      { 
-        label: 'Payback (Amortización)', 
-        value: r.roi_payback_anios ? `${r.roi_payback_anios} años` : '—',
-        icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
-      },
-      { 
-        label: 'ROI a 5 años', 
-        value: r.roi_5anios_pct ? `${r.roi_5anios_pct}%` : '—',
-        icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>'
-      }
-    ];
-  }
-
   get criteriaItems(): { label: string; met: boolean }[] {
     const s = this.subvs();
     if (!s || !s.criterios) return [];
