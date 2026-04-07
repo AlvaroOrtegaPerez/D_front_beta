@@ -512,8 +512,8 @@
                   <span class="informe-card__type">{{ inf.tipo || 'Certificado' }}</span>
                   <span class="informe-card__date">{{ inf.created_at | safeDate }}</span>
                 </div>
-                @if (inf.url) {
-                  <a [href]="inf.url" target="_blank" class="informe-card__btn">Ver PDF</a>
+                @if (inf.url_pdf) {
+                  <a [href]="inf.url_pdf" target="_blank" class="informe-card__btn">Ver PDF</a>
                 }
               </div>
             }

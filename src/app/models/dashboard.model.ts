@@ -25,7 +25,7 @@ export interface Informe {
   id: number;
   comunidad_id: number;
   tipo?: string;
-  url?: string;
+  url_pdf?: string;
   created_at?: string;
 }
 

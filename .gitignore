@@ -20,3 +20,6 @@ npm-debug.log*
 # Environment
 *.local
 .env
+
+# Claude Code local memory
+.claude/

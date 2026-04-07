@@ -9,7 +9,7 @@ import { SubvencionesService } from '../../core/services/subvenciones.service';
 import { GestoriasService } from '../../core/services/gestorias.service';
 import { InformesService } from '../../core/services/informes.service';
 import { ToastService } from '../../core/services/toast.service';
-import { Comunidad, normalizeId } from '../../models/comunidad.model';
+import { Comunidad, normalizeId, buildPayload, mapApiToForm } from '../../models/comunidad.model';
 import { ExpedienteRow, Documento, Informe, DashboardMetrics } from '../../models/dashboard.model';
 import { RecomendacionAPI, SubvencionAPI, isRecomendacionAPI, isSubvencionAPI, getResumenRecomendacionText } from '../../models/recomendacion.model';
 import {
@@ -417,17 +417,24 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
     const id = this.selectedId();
     if (!id) return;
     this.loadingRecs.set(true);
-    this.recsService.generarRecomendaciones(id).subscribe({
-      next: (res) => {
-        const data = this.extractData(res);
-        if (isRecomendacionAPI(data)) {
-          this.recs.set(data);
-          this.resumenText.set(getResumenRecomendacionText(data) ?? '');
-        }
-        this.loadingRecs.set(false);
-        this.toast.success('Recomendaciones generadas');
+    
+    this.comunidadService.getComunidadById(id).subscribe({
+      next: (comu) => {
+        const payload = buildPayload(mapApiToForm(comu));
+        this.recsService.generarRecomendaciones(payload).subscribe({
+          next: (res) => {
+            const data = this.extractData(res);
+            if (isRecomendacionAPI(data)) {
+              this.recs.set(data);
+              this.resumenText.set(getResumenRecomendacionText(data) ?? '');
+            }
+            this.loadingRecs.set(false);
+            this.toast.success('Recomendaciones generadas');
+          },
+          error: () => { this.loadingRecs.set(false); this.toast.error('Error al generar'); }
+        });
       },
-      error: () => { this.loadingRecs.set(false); this.toast.error('Error al generar'); }
+      error: () => { this.loadingRecs.set(false); this.toast.error('Error al obtener datos de comunidad'); }
     });
   }
 
@@ -448,14 +455,21 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
     const id = this.selectedId();
     if (!id) return;
     this.loadingSubvs.set(true);
-    this.subvsService.generarSubvenciones(id).subscribe({
-      next: (res) => {
-        const data = this.extractData(res);
-        if (isSubvencionAPI(data)) this.subvs.set(data);
-        this.loadingSubvs.set(false);
-        this.toast.success('Subvenciones actualizadas');
+
+    this.comunidadService.getComunidadById(id).subscribe({
+      next: (comu) => {
+        const payload = buildPayload(mapApiToForm(comu));
+        this.subvsService.generarSubvenciones(payload).subscribe({
+          next: (res) => {
+            const data = this.extractData(res);
+            if (isSubvencionAPI(data)) this.subvs.set(data);
+            this.loadingSubvs.set(false);
+            this.toast.success('Subvenciones actualizadas');
+          },
+          error: () => { this.loadingSubvs.set(false); this.toast.error('Error al generar'); }
+        });
       },
-      error: () => { this.loadingSubvs.set(false); this.toast.error('Error al generar'); }
+      error: () => { this.loadingSubvs.set(false); this.toast.error('Error al obtener datos de comunidad'); }
     });
   }
 
@@ -633,7 +647,7 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
     this.informesService.generarCertificado(id).subscribe({
       next: (res) => {
         this.loadingCert.set(false);
-        const url = (res as Record<string, unknown>)['url'] as string;
+        const url = (res as Record<string, unknown>)['url_pdf'] as string;
         if (url) window.open(url, '_blank');
         this.loadInformes(id);
         this.certWizardStep.set(0);

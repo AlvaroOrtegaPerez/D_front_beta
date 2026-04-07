@@ -11,7 +11,7 @@
   @if (loading()) {
     <app-loading-spinner text="Generando recomendaciones con IA..." />
   } @else {
-
+    @if (recs(); as r) {
       <!-- Ahorros Temporales -->
       <section class="section">
         <h2 class="section-heading">Proyección de Ahorros Estimada</h2>
