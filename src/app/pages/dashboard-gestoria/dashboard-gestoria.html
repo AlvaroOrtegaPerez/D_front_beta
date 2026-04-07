@@ -552,16 +552,14 @@
         </div>
         <div class="upload-row">
           <select [(ngModel)]="uploadTipo" class="form-control">
-            <option value="Presupuesto">Presupuesto</option>
-            <option value="Certificado">Certificado</option>
-            <option value="Certificado energético">Certificado energético</option>
-            <option value="Proyecto técnico">Proyecto técnico</option>
-            <option value="Memoria técnica">Memoria técnica</option>
-            <option value="DNI/CIF">DNI/CIF</option>
-            <option value="Escrituras">Escrituras</option>
-            <option value="Estatutos">Estatutos</option>
-            <option value="Documentación">Documentación</option>
-            <option value="Otros">Otros</option>
+            <option value="DNI">DNI / CIF</option>
+            <option value="PRESUPUESTO">Presupuesto</option>
+            <option value="FACTURA">Factura</option>
+            <option value="MEMORIA_TECNICA">Memoria técnica</option>
+            <option value="CERTIFICADO_ENERGETICO">Certificado energético</option>
+            <option value="LICENCIA_OBRA">Licencia de obra</option>
+            <option value="FOTOGRAFIAS">Fotografías</option>
+            <option value="OTROS">Otros</option>
           </select>
           <app-eco-button variant="primary" [loading]="uploadSubmitting()" [disabled]="!uploadFile" (clicked)="uploadDoc()">Subir</app-eco-button>
         </div>

@@ -1,12 +1,12 @@
 export const environment = {
   production: true,
   api: {
-    auth: 'https://TU-BACKEND-PRODUCCION.com/api',
-    comunidades: 'https://TU-BACKEND-PRODUCCION.com/api',
-    recommendations: 'https://TU-BACKEND-PRODUCCION.com/api',
-    subvenciones: 'https://TU-BACKEND-PRODUCCION.com/api',
-    gestorias: 'https://TU-BACKEND-PRODUCCION.com/api',
-    informes: 'https://TU-BACKEND-PRODUCCION.com/api',
+    auth: 'http://localhost:8080/api',
+    comunidades: 'http://localhost:8080/api',
+    recommendations: 'http://localhost:8080/api',
+    subvenciones: 'http://localhost:8080/api',
+    gestorias: 'http://localhost:8080/api',
+    informes: 'http://localhost:8080/api',
   },
   calendarUrl: '',
 };
