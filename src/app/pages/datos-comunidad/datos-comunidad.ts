@@ -280,7 +280,8 @@ export class DatosComunidadPage implements OnInit {
         next: () => {
           this.loading.set(false);
           this.toast.success('Comunidad actualizada');
-          this.router.navigateByUrl('/mis-comunidades');
+          sessionStorage.setItem('comunidad_actual', JSON.stringify(payload));
+          this.router.navigateByUrl('/recomendaciones');
         },
         error: () => { this.loading.set(false); this.toast.error('Error al actualizar'); }
       });
@@ -291,6 +292,7 @@ export class DatosComunidadPage implements OnInit {
           this.toast.success('Comunidad creada');
           const id = (res as Record<string, unknown>)['comunidades_id'] ?? (res as Record<string, unknown>)['id'];
           if (id) sessionStorage.setItem('comunidades_id', String(id));
+          sessionStorage.setItem('comunidad_actual', JSON.stringify(payload));
           this.router.navigateByUrl('/recomendaciones');
         },
         error: () => { this.loading.set(false); this.toast.error('Error al crear comunidad'); }

@@ -10,9 +10,7 @@ export class SubvencionesService {
     return this.api.get<Record<string, unknown>>('subvenciones', `/subvenciones?comunidadId=${idComunidad}`);
   }
 
-  generarSubvenciones(comunidadesId: number): Observable<Record<string, unknown>> {
-    return this.api.post<Record<string, unknown>>('subvenciones', '/subvenciones', {
-      comunidades_id: comunidadesId,
-    });
+  generarSubvenciones(payload: Record<string, unknown>): Observable<Record<string, unknown>> {
+    return this.api.post<Record<string, unknown>>('subvenciones', '/subvenciones', payload);
   }
 }

@@ -12,23 +12,64 @@
     <app-loading-spinner text="Generando recomendaciones con IA..." />
   } @else {
 
-    @if (recs(); as r) {
-      <!-- Ahorros -->
+      <!-- Ahorros Temporales -->
       <section class="section">
-        <h2 class="section-heading">Ahorro Estimado a 5 Años</h2>
-        <div class="metrics-grid">
-          <app-metric-card
-            icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
-            [value]="r.ahorro_5anios_kwh ? (r.ahorro_5anios_kwh | number:'1.0-0') + ' kWh' : '—'"
-            label="Ahorro energético" />
-          <app-metric-card
-            icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
-            [value]="r.ahorro_5anios_eur | formatEur"
-            label="Ahorro económico" />
-          <app-metric-card
-            icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>'
-            [value]="(r.co2_5anios_kg | number:'1.0-0') + ' kg'"
-            label="CO₂ evitado" />
+        <h2 class="section-heading">Proyección de Ahorros Estimada</h2>
+        <app-glass-card>
+          <div class="ahorros-table-wrap">
+            <table class="ahorros-table">
+              <thead>
+                <tr>
+                  <th>Periodo</th>
+                  <th>Económico</th>
+                  <th>Energético</th>
+                  <th>CO₂ evitado</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of ahorroItems; track item.label) {
+                  <tr>
+                    <td><span class="period-label">{{ item.label }}</span></td>
+                    <td><span class="val-eur">{{ item.eur | formatEur }}</span></td>
+                    <td><span class="val-kwh">{{ item.kwh | number:'1.0-0' }} kWh</span></td>
+                    <td><span class="val-co2">{{ item.co2 | number:'1.0-0' }} kg</span></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </app-glass-card>
+      </section>
+
+      <!-- ROI y Certificados -->
+      <section class="section">
+        <div class="dual-grid">
+          <div class="roi-section">
+            <h2 class="section-heading">Retorno de Inversión (ROI)</h2>
+            <div class="roi-cards">
+              @for (roi of roiItems; track roi.label) {
+                <app-metric-card [icon]="roi.icon" [value]="roi.value" [label]="roi.label" />
+              }
+            </div>
+          </div>
+          <div class="cert-section">
+            <h2 class="section-heading">Eficiencia Energética</h2>
+            <app-glass-card>
+              <div class="cert-compare">
+                <div class="cert-item">
+                  <span class="cert-label">Actual</span>
+                  <div class="cert-badge" [attr.data-letter]="r.certificado_energetico_actual">{{ r.certificado_energetico_actual || '—' }}</div>
+                </div>
+                <div class="cert-arrow">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+                <div class="cert-item">
+                  <span class="cert-label">Post-Mejoras</span>
+                  <div class="cert-badge" [attr.data-letter]="r.certificado_energetico_post">{{ r.certificado_energetico_post || '—' }}</div>
+                </div>
+              </div>
+            </app-glass-card>
+          </div>
         </div>
       </section>
 
@@ -85,21 +126,47 @@
       @if (subvs(); as s) {
         <section class="section">
           <h2 class="section-heading">Subvenciones y Ayudas</h2>
-          <div class="metrics-grid metrics-grid--2">
-            <app-metric-card
-              icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>'
-              [value]="s.probabilidad_total_subvencion_pct | formatPct"
-              label="Probabilidad de subvención" />
-            <app-metric-card
-              icon='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>'
-              [value]="s.reduccion_energetica_pct | formatPct"
-              label="Reducción energética" />
-          </div>
-          <div class="eligibility-grid">
-            @for (item of eligibilityItems; track item.label) {
-              <div class="elig-item" [class.elig-item--yes]="item.eligible" [class.elig-item--no]="!item.eligible">
-                <span class="elig-dot"></span>
-                {{ item.label }}
+          
+          <app-glass-card>
+            <div class="subvs-header">
+              <div class="prob-container">
+                <div class="prob-info">
+                  <span class="prob-label">Probabilidad total de éxito</span>
+                  <span class="prob-value">{{ s.probabilidad_total_subvencion_pct | formatPct }}</span>
+                </div>
+                <div class="prob-bar-wrap">
+                  <div class="prob-bar" [style.width.%]="s.probabilidad_total_subvencion_pct"></div>
+                </div>
+              </div>
+              <div class="reduc-info">
+                <span class="reduc-label">Reducción energética</span>
+                <span class="reduc-value">{{ s.reduccion_energetica_pct | formatPct }}</span>
+              </div>
+            </div>
+          </app-glass-card>
+
+          <div class="subvs-details">
+            <div class="eligibility-grid">
+              @for (item of eligibilityItems; track item.label) {
+                <div class="elig-item" [class.elig-item--yes]="item.eligible" [class.elig-item--no]="!item.eligible">
+                  <span class="elig-dot"></span>
+                  {{ item.label }}
+                </div>
+              }
+            </div>
+            
+            @if (criteriaItems.length > 0) {
+              <div class="criteria-list">
+                <h4 class="criteria-title">Criterios técnicos detectados:</h4>
+                @for (crit of criteriaItems; track crit.label) {
+                  <div class="crit-item">
+                    <svg class="crit-icon" [style.color]="crit.met ? '#10b981' : '#94a3b8'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      @if (crit.met) { <polyline points="20 6 9 17 4 12"/> }
+                      @else { <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/> }
+                    </svg>
+                    <span [style.color]="crit.met ? '#1e293b' : '#64748b'">{{ crit.label }}</span>
+                  </div>
+                }
               </div>
             }
           </div>
@@ -123,7 +190,24 @@
             <h3 class="cta-title">¿Quieres dar el siguiente paso?</h3>
             <p class="cta-desc">Agenda una videollamada con nuestro equipo para analizar tus resultados y empezar tu transición energética.</p>
             <div class="cta-actions">
-              <app-eco-button variant="primary" (clicked)="goDashboard()">Ir al Dashboard 360</app-eco-button>
+              @if (!blobPath()) {
+                <app-eco-button variant="primary" (clicked)="generatePdf()" [disabled]="isGeneratingPdf()">
+                  @if (isGeneratingPdf()) {
+                    <div class="btn-loading">
+                      <svg class="spinner" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="5"></circle></svg>
+                      Generando...
+                    </div>
+                  } @else {
+                    Generar Informe PDF
+                  }
+                </app-eco-button>
+              } @else {
+                <app-eco-button variant="primary" (clicked)="downloadPdf()" class="btn-download-success">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Descargar PDF Listo
+                </app-eco-button>
+              }
+              <app-eco-button variant="outline" (clicked)="goDashboard()">Ir al Dashboard 360</app-eco-button>
               <app-eco-button variant="outline" (clicked)="goBack()">Mis comunidades</app-eco-button>
             </div>
           </div>

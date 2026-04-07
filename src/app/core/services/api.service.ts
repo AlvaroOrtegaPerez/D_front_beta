@@ -31,4 +31,10 @@ export class ApiService {
     const headers = new HttpHeaders({ 'X-Skip-Auth': 'true' });
     return this.http.post<T>(`${this.getBase(baseKey)}${path}`, body ?? {}, { headers });
   }
+
+  postBlob(baseKey: ApiBaseKey, path: string, body: unknown): Observable<Blob> {
+    return this.http.post(`${this.getBase(baseKey)}${path}`, body, {
+      responseType: 'blob'
+    });
+  }
 }

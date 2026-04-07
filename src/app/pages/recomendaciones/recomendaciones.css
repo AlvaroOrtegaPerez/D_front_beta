@@ -97,4 +97,79 @@
   .metrics-grid--2 { grid-template-columns: 1fr; }
   .eligibility-grid { grid-template-columns: 1fr; }
   .mix-label { width: 90px; font-size: 0.8rem; }
+  .dual-grid { grid-template-columns: 1fr; }
 }
+
+/* Nuevos Estilos Fase 2 */
+.ahorros-table-wrap { overflow-x: auto; margin: -10px 0; }
+.ahorros-table { width: 100%; border-collapse: collapse; text-align: left; }
+.ahorros-table th { padding: 12px; font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: 700; border-bottom: 1px solid #f1f5f9; }
+.ahorros-table td { padding: 14px 12px; border-bottom: 1px solid #f8fafc; font-size: 0.95rem; }
+.period-label { font-weight: 700; color: #1e293b; }
+.val-eur { font-weight: 800; color: #10b981; }
+.val-kwh { color: #3b82f6; font-weight: 600; }
+.val-co2 { color: #6366f1; font-weight: 600; }
+
+.dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.roi-cards { display: grid; grid-template-columns: 1fr; gap: 12px; }
+
+.cert-compare { display: flex; align-items: center; justify-content: space-around; padding: 12px 0; }
+.cert-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.cert-label { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+.cert-badge {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 900; color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.cert-badge[data-letter="A"] { background: #00a650; }
+.cert-badge[data-letter="B"] { background: #4cb748; }
+.cert-badge[data-letter="C"] { background: #c2d523; }
+.cert-badge[data-letter="D"] { background: #fff200; color: #857b00; }
+.cert-badge[data-letter="E"] { background: #fbaf17; }
+.cert-badge[data-letter="F"] { background: #f26522; }
+.cert-badge[data-letter="G"] { background: #ed1c24; }
+.cert-badge:not([data-letter]) { background: #e2e8f0; color: #94a3b8; }
+
+.cert-arrow { color: #cbd5e1; }
+
+.subvs-header { display: flex; align-items: center; gap: 32px; padding: 8px 0; }
+.prob-container { flex: 1; }
+.prob-info { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.prob-label { font-size: 0.9rem; font-weight: 600; color: #475569; }
+.prob-value { font-size: 1.2rem; font-weight: 800; color: #10b981; }
+.prob-bar-wrap { height: 10px; background: #f1f5f9; border-radius: 5px; overflow: hidden; }
+.prob-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 5px; transition: width 1s ease-out; }
+
+.reduc-info { display: flex; flex-direction: column; text-align: right; }
+.reduc-label { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+.reduc-value { font-size: 1.5rem; font-weight: 900; color: #1e293b; }
+
+.subvs-details { margin-top: 16px; }
+.criteria-list { margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9; }
+.criteria-title { font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 12px; }
+.crit-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; margin-bottom: 6px; }
+.crit-icon { flex-shrink: 0; }
+
+/* Estilos Informe PDF */
+.btn-loading { display: flex; align-items: center; gap: 8px; justify-content: center; }
+.spinner {
+  animation: rotate 2s linear infinite;
+  width: 18px; height: 18px;
+}
+.spinner circle {
+  stroke-dasharray: 90, 150;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate { 100% { transform: rotate(360deg); } }
+@keyframes dash {
+  0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+
+.mr-2 { margin-right: 8px; }
+.btn-download-success { border-color: #10b981 !important; }
