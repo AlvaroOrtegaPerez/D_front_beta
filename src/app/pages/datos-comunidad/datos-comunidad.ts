@@ -280,6 +280,7 @@ export class DatosComunidadPage implements OnInit {
         next: () => {
           this.loading.set(false);
           this.toast.success('Comunidad actualizada');
+          sessionStorage.setItem('comunidades_id', String(editId));
           sessionStorage.setItem('comunidad_actual', JSON.stringify(payload));
           this.router.navigateByUrl('/recomendaciones');
         },

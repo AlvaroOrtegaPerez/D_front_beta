@@ -17,7 +17,7 @@ export interface Comunidad {
   orientacion?: string;
   tipo_calefaccion?: string;
   bateria?: boolean;
-  codigo_postal?: number;
+  codigo_postal?: string;
   zona_climatica?: string;
   gasto_mensual_energia?: number;
   presupuesto?: number;
