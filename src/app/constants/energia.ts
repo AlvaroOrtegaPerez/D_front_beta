@@ -1,8 +1,9 @@
 export const FUENTES_ENERGIA_OPTIONS = [
-  { label: 'Red eléctrica', value: 'RED_ELECTRICA' },
-  { label: 'Autoconsumo',   value: 'AUTOCONSUMO'   },
-  { label: 'Mixta',         value: 'MIXTA'          },
-  { label: 'No lo sé',      value: 'DESCONOCIDO'    },
+  { label: 'Electricidad',  value: 'ELECTRICIDAD' },
+  { label: 'Gas natural',   value: 'GAS_NATURAL'  },
+  { label: 'Gasóleo',      value: 'GASOLEO'      },
+  { label: 'Biomasa',      value: 'BIOMASA'      },
+  { label: 'Otros',        value: 'OTROS'        },
 ] as const;
 
 export const TIPOS_CALEFACCION_CHIPS = [

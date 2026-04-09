@@ -156,7 +156,7 @@ export function buildPayload(form: FormDataComunidad): Record<string, unknown> {
     num_pisos: form.numPlantas ? Number(form.numPlantas) : null,
     electricidad_kwh: form.consumoElectrico ? Number(form.consumoElectrico) : null,
     termica_kwh: form.consumoTermico ? Number(form.consumoTermico) : null,
-    fuentes_energia: form.fuentesEnergia.join(', '),
+    fuentesEnergia: form.fuentesEnergia, // Enviamos el array directamente
     area_techo_m2: form.area_techo_m2 ? Number(form.area_techo_m2) : null,
     orientacion: form.orientacion,
     tipo_calefaccion: form.tipoCalefaccion,
@@ -169,7 +169,7 @@ export function buildPayload(form: FormDataComunidad): Record<string, unknown> {
     tipo_ventanas: form.tipoVentanas || null,
     sensacion_termica_invierno: form.sensacionTermicaInvierno || null,
     corrientes_aire: form.corrientesAire || null,
-    condiciones_entorno: form.condicionesEntorno?.join(', ') || null,
+    condicionesEntorno: form.condicionesEntorno || null, // Enviamos el array directamente
   };
 }
 
