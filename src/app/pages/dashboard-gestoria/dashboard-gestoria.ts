@@ -420,7 +420,7 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
     
     this.comunidadService.getComunidadById(id).subscribe({
       next: (comu) => {
-        const payload = buildPayload(mapApiToForm(comu));
+        const payload = { ...buildPayload(mapApiToForm(comu)), comunidades_id: id };
         this.recsService.generarRecomendaciones(payload).subscribe({
           next: (res) => {
             const data = this.extractData(res);
@@ -458,7 +458,7 @@ export class DashboardGestoriaPage implements OnInit, OnDestroy {
 
     this.comunidadService.getComunidadById(id).subscribe({
       next: (comu) => {
-        const payload = buildPayload(mapApiToForm(comu));
+        const payload = { ...buildPayload(mapApiToForm(comu)), comunidades_id: id };
         this.subvsService.generarSubvenciones(payload).subscribe({
           next: (res) => {
             const data = this.extractData(res);

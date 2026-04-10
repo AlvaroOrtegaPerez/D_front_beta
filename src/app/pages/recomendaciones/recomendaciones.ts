@@ -106,7 +106,7 @@ export class RecomendacionesPage implements OnInit {
       this.toast.error('No se encontraron los datos de la comunidad');
       return;
     }
-    const payload = JSON.parse(rawData);
+    const payload = { ...JSON.parse(rawData), comunidades_id: id };
 
     this.loading.set(true);
 
@@ -209,7 +209,7 @@ export class RecomendacionesPage implements OnInit {
   generatePdf(): void {
     const rawData = sessionStorage.getItem('comunidad_actual');
     if (!rawData) return;
-    const payload = JSON.parse(rawData);
+    const payload = { ...JSON.parse(rawData), comunidades_id: this.comunidadId() };
 
     this.isGeneratingPdf.set(true);
     this.informesService.generarInformePreliminar(payload).subscribe({

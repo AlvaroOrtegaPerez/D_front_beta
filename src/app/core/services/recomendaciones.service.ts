@@ -11,6 +11,6 @@ export class RecomendacionesService {
   }
 
   generarRecomendaciones(payload: Record<string, unknown>): Observable<Record<string, unknown>> {
-    return this.api.post<Record<string, unknown>>('recommendations', '/recomendaciones', payload);
+    return this.api.post<Record<string, unknown>>('recommendations', '/recomendaciones/generar', payload);
   }
 }
