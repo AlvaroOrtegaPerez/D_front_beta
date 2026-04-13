@@ -7,6 +7,7 @@ export const environment = {
     subvenciones: 'http://localhost:8080/api',
     gestorias: 'http://localhost:8080/api',
     informes: 'http://localhost:8080/api',
+    programasSubvenciones: 'http://localhost:8080/api',
   },
   calendarUrl: '',
 };
