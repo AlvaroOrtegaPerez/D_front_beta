@@ -13,7 +13,7 @@ if (fs.existsSync(envPath)) {
   });
 }
 
-const baseUrl = process.env.BACKEND_URL || 'http://localhost:8080/api';
+const baseUrl = process.env.BACKEND_URL || 'https://dinamiza-backend-java-v2.onrender.com/api';
 
 const envConfigFile = `export const environment = {
   production: false,
