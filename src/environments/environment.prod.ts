@@ -1,13 +1,13 @@
 export const environment = {
   production: true,
   api: {
-    auth: 'http://localhost:8080/api',
-    comunidades: 'http://localhost:8080/api',
-    recommendations: 'http://localhost:8080/api',
-    subvenciones: 'http://localhost:8080/api',
-    gestorias: 'http://localhost:8080/api',
-    informes: 'http://localhost:8080/api',
-    programasSubvenciones: 'http://localhost:8080/api',
+    auth: 'https://dinamiza-backend-java-v2.onrender.com/api',
+    comunidades: 'https://dinamiza-backend-java-v2.onrender.com/api',
+    recommendations: 'https://dinamiza-backend-java-v2.onrender.com/api',
+    subvenciones: 'https://dinamiza-backend-java-v2.onrender.com/api',
+    gestorias: 'https://dinamiza-backend-java-v2.onrender.com/api',
+    informes: 'https://dinamiza-backend-java-v2.onrender.com/api',
+    programasSubvenciones: 'https://dinamiza-backend-java-v2.onrender.com/api',
   },
   calendarUrl: '',
 };
